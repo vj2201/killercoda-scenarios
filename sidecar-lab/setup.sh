@@ -4,6 +4,19 @@ set -e
 echo "🚀 Setting up CKA Sidecar Practice Lab..."
 echo "Creating base deployment (without sidecar)..."
 
+# Wait for Kubernetes API to be ready (up to ~2 minutes)
+echo "Waiting for Kubernetes API to become ready..."
+for i in {1..60}; do
+  if kubectl version --short >/dev/null 2>&1 && kubectl get nodes >/dev/null 2>&1; then
+    echo "Kubernetes API is ready."
+    break
+  fi
+  sleep 2
+  if [ "$i" -eq 60 ]; then
+    echo "Warning: Kubernetes API not ready yet, continuing anyway..."
+  fi
+done
+
 # Make sure the directory exists
 mkdir -p /tmp/repo/git/sidecar-lab/
 
@@ -41,6 +54,9 @@ EOF
 
 # Apply the deployment
 kubectl apply -f /tmp/repo/git/sidecar-lab/synergy-deploy.yaml
+
+# Wait for the deployment to become available, but don't fail the script if it takes longer
+kubectl rollout status deployment/synergy-deployment --timeout=120s || true
 
 # Verify pod
 kubectl get pods -l app=synergy

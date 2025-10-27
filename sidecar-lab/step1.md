@@ -1,4 +1,4 @@
-Run this command to create the base Deployment (copy/paste into terminal):
+The lab auto-runs a setup to create the base Deployment. If it hasn’t appeared after ~30 seconds, run this command manually:
 
 ```
 kubectl apply -f - <<'YAML'

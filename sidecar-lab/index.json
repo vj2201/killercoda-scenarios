@@ -1,29 +1,26 @@
 {
   "title": "CKA Practice: Add a Sidecar Container",
-  "description": "Learn how to modify a running deployment to add a sidecar container that tails logs from the main container using a shared emptyDir volume.",
+  "description": "Learn how to add a sidecar container to a Kubernetes Deployment for log sharing using a shared emptyDir volume.",
   "difficulty": "intermediate",
   "time": "10 minutes",
   "details": {
     "intro": {
-      "text": "intro.md"
+      "text": "You'll add a sidecar container to a Kubernetes Deployment. The setup script creates the base deployment. Your task is to add a sidecar that tails the log file."
     },
     "steps": [
       {
         "title": "Setup Environment",
-        "text": "step1.md"
+        "text": "The setup script has created the base deployment. Verify: kubectl get pods -l app=synergy"
       },
       {
         "title": "Edit Deployment",
-        "text": "step2.md"
+        "text": "Run: kubectl edit deployment synergy-deployment and add the sidecar container."
       },
       {
         "title": "Verify",
-        "text": "step3.md"
+        "text": "Check: kubectl get pods -l app=synergy and kubectl logs deployment/synergy-deployment -c sidecar -f"
       }
-    ],
-    "finish": {
-      "text": "finish.md"
-    }
+    ]
   },
   "backend": {
     "imageid": "kubernetes-kubeadm"

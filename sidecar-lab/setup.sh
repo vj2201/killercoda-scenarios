@@ -4,24 +4,26 @@ set -e
 echo "🚀 Setting up CKA Sidecar Practice Lab..."
 echo "Creating base deployment (without sidecar)..."
 
-# Wait for Kubernetes API to be ready (up to ~2 minutes)
+# Wait for Kubernetes API and nodes to be ready (up to ~3 minutes)
 echo "Waiting for Kubernetes API to become ready..."
-for i in {1..60}; do
-  if kubectl version --short >/dev/null 2>&1 && kubectl get nodes >/dev/null 2>&1; then
-    echo "Kubernetes API is ready."
-    break
+for i in {1..90}; do
+  if kubectl version --short >/dev/null 2>&1; then
+    if kubectl get nodes >/dev/null 2>&1; then
+      # Try to ensure at least one node is Ready
+      if kubectl get nodes --no-headers 2>/dev/null | grep -q " Ready "; then
+        echo "Kubernetes API and node(s) are ready."
+        break
+      fi
+    fi
   fi
   sleep 2
-  if [ "$i" -eq 60 ]; then
-    echo "Warning: Kubernetes API not ready yet, continuing anyway..."
+  if [ "$i" -eq 90 ]; then
+    echo "Warning: Kubernetes not fully ready yet, continuing anyway..."
   fi
 done
 
-# Make sure the directory exists
-mkdir -p /tmp/repo/git/sidecar-lab/
-
-# Write deployment YAML into the expected directory
-cat <<EOF > /tmp/repo/git/sidecar-lab/synergy-deploy.yaml
+echo "Applying base Deployment manifest..."
+kubectl apply -f - <<'EOF'
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -52,14 +54,11 @@ spec:
         emptyDir: {}
 EOF
 
-# Apply the deployment
-kubectl apply -f /tmp/repo/git/sidecar-lab/synergy-deploy.yaml
-
 # Wait for the deployment to become available, but don't fail the script if it takes longer
 kubectl rollout status deployment/synergy-deployment --timeout=120s || true
 
 # Verify pod
-kubectl get pods -l app=synergy
+kubectl get deploy,po -l app=synergy || true
 
 echo
 echo "✅ Base deployment created!"

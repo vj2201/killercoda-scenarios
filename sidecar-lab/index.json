@@ -11,7 +11,7 @@
       { "title": "Verify", "text": "step3.md" }
     ]
   },
-  "backend": { "imageid": "kubernetes" },
+  "backend": { "imageid": "kubernetes-kubeadm" },
   "environment": {
     "terminal": {
       "commands": [

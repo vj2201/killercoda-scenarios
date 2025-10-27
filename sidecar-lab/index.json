@@ -1,0 +1,35 @@
+
+---
+
+## 🧩 3. `index.json` (Optional — for Killercoda integration)
+This lets Killercoda load it as a full scenario:
+
+```json
+{
+  "title": "CKA Practice: Add a Sidecar Container",
+  "description": "Learn how to modify a running deployment to add a sidecar container that tails logs from the main container using a shared emptyDir volume.",
+  "difficulty": "intermediate",
+  "time": "10 minutes",
+  "details": {
+    "intro": {
+      "text": "You'll learn how to add a sidecar container to a Kubernetes Deployment for log sharing using a shared volume."
+    },
+    "steps": [
+      {
+        "title": "Setup Environment",
+        "text": "The setup script will create the base deployment."
+      },
+      {
+        "title": "Edit Deployment",
+        "text": "Add the sidecar container using the busybox:stable image."
+      },
+      {
+        "title": "Verify",
+        "text": "Ensure logs are shared between containers and view them using `kubectl logs -f`."
+      }
+    ]
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm"
+  }
+}

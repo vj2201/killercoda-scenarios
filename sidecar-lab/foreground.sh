@@ -1,7 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-echo "=== Lab setup starting ($(date)) ==="
+echo "=================================================="
+echo "=== CKA Sidecar Lab: Auto Setup (foreground)  ==="
+echo "=== Start: $(date)                           ==="
+echo "=================================================="
 
 echo "[info] kubectl version:" || true
 kubectl version || true
@@ -55,5 +58,8 @@ fi
 kubectl rollout status deploy/synergy-deployment --timeout=120s || true
 kubectl get deploy,po -l app=synergy || true
 
-echo "=== Lab setup complete ($(date)) ==="
-
+echo "=================================================="
+echo "=== Lab setup complete: $(date)                ==="
+echo "=== Next: kubectl edit deploy synergy-deployment ==="
+echo "=== Add sidecar per step 2 instructions        ==="
+echo "=================================================="

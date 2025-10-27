@@ -11,7 +11,7 @@
       { "title": "Verify", "text": "step3.md" }
     ]
   },
-  "backend": { "imageid": "kubernetes-kubeadm" },
+  "backend": { "imageid": "kubernetes" },
   "environment": {
     "setup": "bash /root/setup.sh"
   },

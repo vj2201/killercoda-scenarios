@@ -4,7 +4,11 @@ set -e
 echo "🚀 Setting up CKA Sidecar Practice Lab..."
 echo "Creating base deployment (without sidecar)..."
 
-cat <<EOF > ~/synergy-deploy.yaml
+# Make sure the directory exists
+mkdir -p /tmp/repo/git/sidecar-lab/
+
+# Write deployment YAML into the expected directory
+cat <<EOF > /tmp/repo/git/sidecar-lab/synergy-deploy.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -35,7 +39,10 @@ spec:
         emptyDir: {}
 EOF
 
-kubectl apply -f ~/synergy-deploy.yaml
+# Apply the deployment
+kubectl apply -f /tmp/repo/git/sidecar-lab/synergy-deploy.yaml
+
+# Verify pod
 kubectl get pods -l app=synergy
 
 echo

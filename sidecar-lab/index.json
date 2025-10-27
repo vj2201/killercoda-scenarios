@@ -13,22 +13,24 @@
     "assets": {
       "host01": [
         { "file": "setup.sh", "target": "/root/setup.sh", "chmod": "+x" },
+        { "file": "preflight.sh", "target": "/root/preflight.sh", "chmod": "+x" },
         { "file": "verify.sh", "target": "/root/verify.sh", "chmod": "+x" }
       ]
     }
   },
   "backend": { "imageid": "kubernetes" },
   "environment": {
-    "setup": "bash /root/setup.sh",
+    "setup": "bash /root/preflight.sh",
     "terminal": {
       "commands": [
-        "bash /root/setup.sh"
+        "bash /root/preflight.sh"
       ]
     }
   },
   "assets": {
     "host01": [
       { "file": "setup.sh", "target": "/root/setup.sh", "chmod": "+x" },
+      { "file": "preflight.sh", "target": "/root/preflight.sh", "chmod": "+x" },
       { "file": "verify.sh", "target": "/root/verify.sh", "chmod": "+x" }
     ]
   }

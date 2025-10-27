@@ -1,0 +1,8 @@
+# Ensure scripts use LF line endings in the repo
+*.sh text eol=lf
+sidecar-lab/*.sh text eol=lf
+
+# Normalize YAML/MD too (not strictly required, but consistent)
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf

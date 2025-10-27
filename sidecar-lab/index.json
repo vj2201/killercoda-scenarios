@@ -4,25 +4,26 @@
   "difficulty": "intermediate",
   "time": "10 minutes",
   "details": {
-    "intro": {
-      "text": "You'll add a sidecar container to a Kubernetes Deployment. The setup script creates the base deployment. Your task is to add a sidecar that tails the log file."
-    },
+    "intro": { "text": "intro.md" },
     "steps": [
-      {
-        "title": "Setup Environment",
-        "text": "The setup script has created the base deployment. Verify: kubectl get pods -l app=synergy"
-      },
-      {
-        "title": "Edit Deployment",
-        "text": "Run: kubectl edit deployment synergy-deployment and add the sidecar container."
-      },
-      {
-        "title": "Verify",
-        "text": "Check: kubectl get pods -l app=synergy and kubectl logs deployment/synergy-deployment -c sidecar -f"
-      }
-    ]
+      { "title": "Setup Environment", "text": "step1.md" },
+      { "title": "Edit Deployment", "text": "step2.md" },
+      { "title": "Verify", "text": "step3.md" }
+    ],
+    "assets": {
+      "host01": [
+        { "file": "setup.sh", "target": "/root/setup.sh", "chmod": "+x" }
+      ]
+    }
   },
   "backend": {
-    "imageid": "ubuntu"
+    "imageid": "kubernetes"
+  },
+  "environment": {
+    "terminal": {
+      "commands": [
+        "bash /root/setup.sh"
+      ]
+    }
   }
 }

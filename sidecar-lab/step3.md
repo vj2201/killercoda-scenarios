@@ -31,6 +31,14 @@ mount=$(kubectl get deploy synergy-deployment -o jsonpath='{.spec.template.spec.
 [ -n "$mount" ] || fail "Sidecar must mount a volume at /var/log"
 pass "Volume mount OK at /var/log (volume: $mount)"
 
+main_mount=$(kubectl get deploy synergy-deployment -o jsonpath='{.spec.template.spec.containers[?(@.name=="main-app")].volumeMounts[?(@.mountPath=="/var/log")].name}')
+[ -n "$main_mount" ] || fail "Main container must mount the same volume at /var/log"
+pass "Main container mount OK at /var/log (volume: $main_mount)"
+
+vol=$(kubectl get deploy synergy-deployment -o jsonpath='{.spec.template.spec.volumes[?(@.name=="log-volume")].name}')
+[ -n "$vol" ] || fail "Volume 'log-volume' (emptyDir) must exist in the pod spec"
+pass "Volume present: $vol"
+
 cmd=$(kubectl get deploy synergy-deployment -o jsonpath='{.spec.template.spec.containers[?(@.name=="sidecar")].command[*]}')
 args=$(kubectl get deploy synergy-deployment -o jsonpath='{.spec.template.spec.containers[?(@.name=="sidecar")].args[*]}')
 echo "Observed command: $cmd"

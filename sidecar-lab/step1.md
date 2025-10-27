@@ -1,4 +1,4 @@
-The lab auto-runs a setup to create the base Deployment. If it hasn’t appeared after ~30 seconds, run this command manually:
+Run this command to create the base Deployment (no shared volume yet):
 
 ```
 kubectl apply -f - <<'YAML'
@@ -24,12 +24,6 @@ spec:
         command: ["/bin/sh", "-c"]
         args:
           - while true; do echo "Main app writing logs..." >> /var/log/synergy-deployment.log; sleep 5; done
-        volumeMounts:
-        - name: log-volume
-          mountPath: /var/log
-      volumes:
-      - name: log-volume
-        emptyDir: {}
 YAML
 ```
 

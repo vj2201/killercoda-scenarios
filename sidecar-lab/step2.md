@@ -1,16 +1,19 @@
-Edit the deployment to add a co-located container named `sidecar` using the `busybox:stable` image. The sidecar must tail the shared log file using the exact command:
+Edit the deployment to add a shared volume and a co-located container named `sidecar` using the `busybox:stable` image. The sidecar must tail the shared log file using the exact command:
 
 `/bin/sh -c "tail -n+1 -f /var/log/synergy-deployment.log"`
 
-Do not modify the existing container’s spec; only add the sidecar. Reuse the existing `log-volume` mounted at `/var/log`.
+Do not change the existing container’s command. Add an `emptyDir` volume named `log-volume`, mount it at `/var/log` in BOTH containers, and add the sidecar.
 
 Open the deployment in your editor:
 
 `kubectl edit deployment synergy-deployment`
 
-Add a sidecar container like this (example snippet inside `spec.template.spec`):
+Add the volume and sidecar like this (example snippet inside `spec.template.spec`):
 
 ```
+      volumes:
+      - name: log-volume
+        emptyDir: {}
       containers:
       - name: main-app
         image: busybox:stable
@@ -29,10 +32,5 @@ Add a sidecar container like this (example snippet inside `spec.template.spec`):
           mountPath: /var/log
 ```
 
-Ensure the `volumes` section contains:
+This ensures both containers share `/var/log` via the same `emptyDir`.
 
-```
-      volumes:
-      - name: log-volume
-        emptyDir: {}
-```

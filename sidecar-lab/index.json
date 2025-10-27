@@ -13,11 +13,7 @@
   },
   "backend": { "imageid": "kubernetes-kubeadm" },
   "environment": {
-    "terminal": {
-      "commands": [
-        "bash /root/setup.sh"
-      ]
-    }
+    "setup": "bash /root/setup.sh"
   },
   "assets": {
     "host01": [

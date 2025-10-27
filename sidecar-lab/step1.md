@@ -1,8 +1,37 @@
-The setup should create the base deployment automatically. If you don't see it, run the setup manually.
+Run this command to create the base Deployment (copy/paste into terminal):
 
-Manual run (if needed):
-
-`bash /root/setup.sh`
+```
+kubectl apply -f - <<'YAML'
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synergy-deployment
+  labels:
+    app: synergy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: synergy
+  template:
+    metadata:
+      labels:
+        app: synergy
+    spec:
+      containers:
+      - name: main-app
+        image: busybox:stable
+        command: ["/bin/sh", "-c"]
+        args:
+          - while true; do echo "Main app writing logs..." >> /var/log/synergy-deployment.log; sleep 5; done
+        volumeMounts:
+        - name: log-volume
+          mountPath: /var/log
+      volumes:
+      - name: log-volume
+        emptyDir: {}
+YAML
+```
 
 Verify the pod is running:
 

@@ -23,6 +23,6 @@
     ]
   },
   "backend": {
-    "imageid": "kubernetes-kubeadm"
+    "imageid": "ubuntu"
   }
 }

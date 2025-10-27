@@ -8,5 +8,8 @@ Verify the deployment and logs from the sidecar container.
 
 `kubectl logs deployment/synergy-deployment -c sidecar -f`
 
-You should see the log lines produced by the main container.
+- Run automated checks:
 
+`bash /root/verify.sh`
+
+You should see the log lines produced by the main container, and the verify script should report PASS for name, image, volume mount, and command.

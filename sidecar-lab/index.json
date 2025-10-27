@@ -1,6 +1,6 @@
 {
   "title": "CKA Practice: Add a Sidecar Container",
-  "description": "Learn how to add a sidecar container to a Kubernetes Deployment for log sharing using a shared emptyDir volume.",
+  "description": "Learn how to add a sidecar container to a Kubernetes Deployment for log streaming using a shared volume.",
   "difficulty": "intermediate",
   "time": "10 minutes",
   "details": {
@@ -12,13 +12,12 @@
     ],
     "assets": {
       "host01": [
-        { "file": "setup.sh", "target": "/root/setup.sh", "chmod": "+x" }
+        { "file": "setup.sh", "target": "/root/setup.sh", "chmod": "+x" },
+        { "file": "verify.sh", "target": "/root/verify.sh", "chmod": "+x" }
       ]
     }
   },
-  "backend": {
-    "imageid": "kubernetes"
-  },
+  "backend": { "imageid": "kubernetes" },
   "environment": {
     "terminal": {
       "commands": [

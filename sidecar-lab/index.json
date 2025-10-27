@@ -9,39 +9,10 @@
       { "title": "Setup Environment", "text": "step1.md" },
       { "title": "Edit Deployment", "text": "step2.md" },
       { "title": "Verify", "text": "step3.md" }
-    ],
-    "assets": {
-      "host01": [
-        { "file": "setup.sh", "target": "/root/setup.sh", "chmod": "+x" },
-        { "file": "preflight.sh", "target": "/root/preflight.sh", "chmod": "+x" },
-        { "file": "verify.sh", "target": "/root/verify.sh", "chmod": "+x" }
-      ],
-      "controlplane": [
-        { "file": "setup.sh", "target": "/root/setup.sh", "chmod": "+x" },
-        { "file": "preflight.sh", "target": "/root/preflight.sh", "chmod": "+x" },
-        { "file": "verify.sh", "target": "/root/verify.sh", "chmod": "+x" }
-      ]
-    }
+    ]
   },
   "backend": { "imageid": "kubernetes" },
   "environment": {
-    "setup": "bash -lc 'if [ -x /root/preflight.sh ]; then bash /root/preflight.sh; else kubectl apply -f - <<\\'EOF\\'\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: synergy-deployment\n  labels:\n    app: synergy\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: synergy\n  template:\n    metadata:\n      labels:\n        app: synergy\n    spec:\n      containers:\n      - name: main-app\n        image: busybox:stable\n        command: [\"/bin/sh\", \"-c\"]\n        args:\n          - while true; do echo \"Main app writing logs...\" >> /var/log/synergy-deployment.log; sleep 5; done\n        volumeMounts:\n        - name: log-volume\n          mountPath: /var/log\n      volumes:\n      - name: log-volume\n        emptyDir: {}\nEOF\nfi'",
-    "terminal": {
-      "commands": [
-        "bash -lc 'if [ -x /root/preflight.sh ]; then bash /root/preflight.sh; else echo \"[warn] preflight.sh missing; nothing to do\"; fi'"
-      ]
-    }
-  },
-  "assets": {
-    "host01": [
-      { "file": "setup.sh", "target": "/root/setup.sh", "chmod": "+x" },
-      { "file": "preflight.sh", "target": "/root/preflight.sh", "chmod": "+x" },
-      { "file": "verify.sh", "target": "/root/verify.sh", "chmod": "+x" }
-    ],
-    "controlplane": [
-      { "file": "setup.sh", "target": "/root/setup.sh", "chmod": "+x" },
-      { "file": "preflight.sh", "target": "/root/preflight.sh", "chmod": "+x" },
-      { "file": "verify.sh", "target": "/root/verify.sh", "chmod": "+x" }
-    ]
+    "setup": "bash -lc 'kubectl get nodes; kubectl apply -f - <<\\'EOF\\'\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: synergy-deployment\n  labels:\n    app: synergy\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: synergy\n  template:\n    metadata:\n      labels:\n        app: synergy\n    spec:\n      containers:\n      - name: main-app\n        image: busybox:stable\n        command: [\"/bin/sh\", \"-c\"]\n        args:\n          - while true; do echo \"Main app writing logs...\" >> /var/log/synergy-deployment.log; sleep 5; done\n        volumeMounts:\n        - name: log-volume\n          mountPath: /var/log\n      volumes:\n      - name: log-volume\n        emptyDir: {}\nEOF\nkubectl rollout status deployment/synergy-deployment --timeout=120s || true'"
   }
 }

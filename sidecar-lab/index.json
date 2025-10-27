@@ -9,11 +9,22 @@
       { "title": "Setup Environment", "text": "step1.md" },
       { "title": "Edit Deployment", "text": "step2.md" },
       { "title": "Verify", "text": "step3.md" }
-    ]
+    ],
+    "assets": {
+      "host01": [
+        { "file": "setup.sh", "target": "/root/setup.sh", "chmod": "+x" },
+        { "file": "verify.sh", "target": "/root/verify.sh", "chmod": "+x" }
+      ]
+    }
   },
   "backend": { "imageid": "kubernetes" },
   "environment": {
-    "setup": "bash /root/setup.sh"
+    "setup": "bash /root/setup.sh",
+    "terminal": {
+      "commands": [
+        "bash /root/setup.sh"
+      ]
+    }
   },
   "assets": {
     "host01": [

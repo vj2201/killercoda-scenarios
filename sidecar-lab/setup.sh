@@ -7,7 +7,7 @@ echo "Creating base deployment (without sidecar)..."
 # Wait for Kubernetes API and nodes to be ready (up to ~3 minutes)
 echo "Waiting for Kubernetes API to become ready..."
 for i in {1..90}; do
-  if kubectl version --short >/dev/null 2>&1; then
+  if kubectl version >/dev/null 2>&1; then
     if kubectl get nodes >/dev/null 2>&1; then
       # Try to ensure at least one node is Ready
       if kubectl get nodes --no-headers 2>/dev/null | grep -q " Ready "; then

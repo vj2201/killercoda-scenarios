@@ -1,0 +1,14 @@
+# Ignore Windows special/accidental files
+nul
+Thumbs.db
+Desktop.ini
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# OS miscellany
+.DS_Store
+
+# Logs
+*.log

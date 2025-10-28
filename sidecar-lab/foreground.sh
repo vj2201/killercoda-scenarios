@@ -19,33 +19,33 @@ for i in {1..90}; do
   if [ "$i" -eq 90 ]; then echo "[warn] Proceeding without Ready confirmation"; fi
 done
 
-if kubectl get deploy synergy-deployment >/dev/null 2>&1; then
-  echo "[info] synergy-deployment already exists"
+if kubectl get deploy wordpress >/dev/null 2>&1; then
+  echo "[info] wordpress already exists"
 else
   echo "[info] Applying base Deployment..."
   kubectl apply -f - <<'YAML'
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: synergy-deployment
+  name: wordpress
   labels:
-    app: synergy
+    app: wordpress
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: synergy
+      app: wordpress
   template:
     metadata:
       labels:
-        app: synergy
+        app: wordpress
     spec:
       containers:
       - name: main-app
         image: busybox:stable
         command: ["/bin/sh", "-c"]
         args:
-          - while true; do echo "Main app writing logs..." >> /var/log/synergy-deployment.log; sleep 5; done
+          - while true; do echo "WordPress app writing logs..." >> /var/log/wordpress.log; sleep 5; done
         volumeMounts:
         - name: log-volume
           mountPath: /var/log
@@ -55,11 +55,11 @@ spec:
 YAML
 fi
 
-kubectl rollout status deploy/synergy-deployment --timeout=120s || true
-kubectl get deploy,po -l app=synergy || true
+kubectl rollout status deploy/wordpress --timeout=120s || true
+kubectl get deploy,po -l app=wordpress || true
 
 echo "=================================================="
 echo "=== Lab setup complete: $(date)                ==="
-echo "=== Next: kubectl edit deploy synergy-deployment ==="
+echo "=== Next: kubectl edit deploy wordpress ==="
 echo "=== Add sidecar per step 2 instructions        ==="
 echo "=================================================="

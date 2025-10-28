@@ -19,9 +19,9 @@ for i in $(seq 1 60); do
 done
 
 # If deployment already exists, show status and exit
-if kubectl get deploy synergy-deployment >/dev/null 2>&1; then
-  echo "[info] synergy-deployment already present"
-  kubectl get deploy,po -l app=synergy || true
+if kubectl get deploy wordpress >/dev/null 2>&1; then
+  echo "[info] wordpress already present"
+  kubectl get deploy,po -l app=wordpress || true
   echo "=== preflight end: $(date) ==="
   exit 0
 fi
@@ -35,25 +35,25 @@ else
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: synergy-deployment
+  name: wordpress
   labels:
-    app: synergy
+    app: wordpress
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: synergy
+      app: wordpress
   template:
     metadata:
       labels:
-        app: synergy
+        app: wordpress
     spec:
       containers:
       - name: main-app
         image: busybox:stable
         command: ["/bin/sh", "-c"]
         args:
-          - while true; do echo "Main app writing logs..." >> /var/log/synergy-deployment.log; sleep 5; done
+          - while true; do echo "WordPress app writing logs..." >> /var/log/wordpress.log; sleep 5; done
         volumeMounts:
         - name: log-volume
           mountPath: /var/log
@@ -61,9 +61,8 @@ spec:
       - name: log-volume
         emptyDir: {}
 YAML
-  kubectl rollout status deploy/synergy-deployment --timeout=120s || true
+  kubectl rollout status deploy/wordpress --timeout=120s || true
 fi
 
-kubectl get deploy,po -l app=synergy || true
+kubectl get deploy,po -l app=wordpress || true
 echo "=== preflight end: $(date) ==="
-

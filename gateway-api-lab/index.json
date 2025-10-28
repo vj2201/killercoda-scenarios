@@ -11,6 +11,13 @@
       { "title": "Create HTTPRoute", "text": "step3.md" },
       { "title": "Verify Migration", "text": "step4.md" }
     ],
+    "assets": {
+      "host01": [
+        { "file": "setup.sh", "target": "/root/setup.sh", "chmod": "+x" },
+        { "file": "preflight.sh", "target": "/root/preflight.sh", "chmod": "+x" },
+        { "file": "foreground.sh", "target": "/root/foreground.sh", "chmod": "+x" }
+      ]
+    },
     "finish": { "text": "finish.md" }
   },
   "backend": { "imageid": "kubernetes" }

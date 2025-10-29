@@ -72,6 +72,15 @@ curl $NODE_IP:$NODE_PORT
 
 ## Step 3: Create Ingress Resource
 
+**Option 1: Imperative (FASTEST for exam)**
+```bash
+kubectl create ingress echo \
+  --namespace=echo-sound \
+  --class=nginx \
+  --rule="example.org/echo=echo-service:8080"
+```
+
+**Option 2: Declarative YAML**
 ```bash
 kubectl apply -f - <<'YAML'
 apiVersion: networking.k8s.io/v1
@@ -149,6 +158,7 @@ curl http://example.org:$INGRESS_PORT/echo
 
 ## Complete All-in-One Solution
 
+**Fastest approach (imperative commands):**
 ```bash
 # 1. Create Service
 kubectl expose deployment echo-deployment \
@@ -158,27 +168,11 @@ kubectl expose deployment echo-deployment \
   --type=NodePort \
   -n echo-sound
 
-# 2. Create Ingress
-kubectl apply -f - <<'YAML'
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: echo
-  namespace: echo-sound
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: example.org
-    http:
-      paths:
-      - path: /echo
-        pathType: Prefix
-        backend:
-          service:
-            name: echo-service
-            port:
-              number: 8080
-YAML
+# 2. Create Ingress (imperative - fastest!)
+kubectl create ingress echo \
+  --namespace=echo-sound \
+  --class=nginx \
+  --rule="example.org/echo=echo-service:8080"
 
 # 3. Test
 NODE_IP=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')

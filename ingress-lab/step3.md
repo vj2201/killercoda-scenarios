@@ -1,5 +1,18 @@
 Create an Ingress resource named `echo` for `http://example.org/echo` routing to the `echo-service`.
 
+**Option 1: Imperative Command (FASTEST for exam!)**
+
+```bash
+kubectl create ingress echo \
+  --namespace=echo-sound \
+  --class=nginx \
+  --rule="example.org/echo=echo-service:8080"
+```
+
+This single command creates the entire Ingress - much faster than writing YAML!
+
+**Option 2: Declarative YAML (if you need more control)**
+
 Create the Ingress manifest:
 
 ```bash

@@ -1,0 +1,27 @@
+{
+  "title": "NodePort Service Configuration",
+  "description": "Configure deployment ports and create NodePort Services for external access",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh",
+      "background": "setup.sh"
+    },
+    "steps": [
+      {
+        "title": "Step 1: Configure Deployment containerPort",
+        "text": "step1.md"
+      },
+      {
+        "title": "Step 2: Create NodePort Service",
+        "text": "step2.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

@@ -30,8 +30,7 @@ spec:
         image: busybox:stable
         command: ["/bin/sh", "-c"]
         args:
-          - tail -n+1 -f /var/log/wordpress.log
+          - tail -f /var/log/wordpress.log
         volumeMounts:
         - name: log-volume
           mountPath: /var/log
-

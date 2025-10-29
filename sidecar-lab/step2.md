@@ -1,6 +1,6 @@
 Edit the deployment to add a shared volume and a co-located container named `sidecar` using the `busybox:stable` image. The sidecar must tail the shared log file using the exact command:
 
-`/bin/sh -c "tail -n+1 -f /var/log/wordpress.log"`
+`/bin/sh -c "tail -f /var/log/wordpress.log"`
 
 Do not change the existing container’s command. Add an `emptyDir` volume named `log-volume`, mount it at `/var/log` in BOTH containers, and add the sidecar.
 
@@ -26,7 +26,7 @@ Add the volume and sidecar like this (example snippet inside `spec.template.spec
       - name: sidecar
         image: busybox:stable
         command: ["/bin/sh", "-c"]
-        args: ["tail -n+1 -f /var/log/wordpress.log"]
+        args: ["tail -f /var/log/wordpress.log"]
         volumeMounts:
         - name: log-volume
           mountPath: /var/log

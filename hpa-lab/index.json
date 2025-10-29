@@ -1,0 +1,20 @@
+{
+  "title": "CKA Practice: HorizontalPodAutoscaler with Behavior",
+  "description": "Configure HPA with CPU targeting and custom downscale stabilization window.",
+  "difficulty": "intermediate",
+  "time": "20 minutes",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh",
+      "background": "setup.sh"
+    },
+    "steps": [
+      { "title": "Verify Deployment & Metrics", "text": "step1.md" },
+      { "title": "Create HPA", "text": "step2.md" },
+      { "title": "Add Behavior Policy", "text": "step3.md" }
+    ],
+    "finish": { "text": "finish.md" }
+  },
+  "backend": { "imageid": "kubernetes" }
+}

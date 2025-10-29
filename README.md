@@ -1,7 +1,7 @@
 CKA Scenarios (Killercoda)
 
 - Sidecar Lab: Add a sidecar container to stream logs from a shared volume.
-  - Scenario: https://killercoda.com/vj2201/scenario/sidecar-lab
+  - Scenario: https://killercoda.com/vj2201/
   - Local setup: `bash sidecar-lab/setup.sh`
 
 - Gateway API Migration Lab: Migrate an existing Ingress to Gateway API while preserving HTTPS and routes.

@@ -1,0 +1,20 @@
+{
+  "title": "CKA Practice: PriorityClass Configuration",
+  "description": "Create and assign PriorityClasses to control pod scheduling priority in Kubernetes.",
+  "difficulty": "intermediate",
+  "time": "15 minutes",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh",
+      "background": "setup.sh"
+    },
+    "steps": [
+      { "title": "Inspect PriorityClasses", "text": "step1.md" },
+      { "title": "Create high-priority Class", "text": "step2.md" },
+      { "title": "Patch Deployment", "text": "step3.md" }
+    ],
+    "finish": { "text": "finish.md" }
+  },
+  "backend": { "imageid": "kubernetes" }
+}

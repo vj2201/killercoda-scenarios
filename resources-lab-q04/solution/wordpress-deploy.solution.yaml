@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      initContainers:
+      - name: init-setup
+        image: busybox:stable
+        command: ["/bin/sh", "-c"]
+        args: ["echo init done; sleep 1"]
+        resources:
+          requests:
+            cpu: "300m"
+            memory: "256Mi"
+          limits:
+            cpu: "300m"
+            memory: "256Mi"
+      containers:
+      - name: main-app
+        image: busybox:stable
+        command: ["/bin/sh", "-c"]
+        args:
+          - while true; do echo "WordPress app running..."; sleep 5; done
+        resources:
+          requests:
+            cpu: "300m"
+            memory: "256Mi"
+          limits:
+            cpu: "300m"
+            memory: "256Mi"
+

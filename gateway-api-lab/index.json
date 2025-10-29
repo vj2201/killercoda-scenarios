@@ -4,7 +4,11 @@
   "difficulty": "intermediate",
   "time": "15 minutes",
   "details": {
-    "intro": { "text": "intro.md" },
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh",
+      "background": "setup.sh"
+    },
     "steps": [
       { "title": "Setup Environment", "text": "step1.md" },
       { "title": "Create Gateway", "text": "step2.md" },

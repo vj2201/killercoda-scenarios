@@ -1,10 +1,14 @@
 {
-  "title": "CKA Practice: Tune Pod Requests & Limits",
+  "title": "CKA Practice: Resource Requests & Limits",
   "description": "Scale and evenly allocate node resources across 3 WordPress pods with identical init/main container resources and safe overhead.",
   "difficulty": "intermediate",
   "time": "15 minutes",
   "details": {
-    "intro": { "text": "intro.md" },
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh",
+      "background": "setup.sh"
+    },
     "steps": [
       { "title": "Setup + Scale Down", "text": "step1.md" },
       { "title": "Edit Resources Fairly", "text": "step2.md" },

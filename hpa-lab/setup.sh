@@ -28,8 +28,8 @@ if ! kubectl get deployment metrics-server -n kube-system >/dev/null 2>&1; then
   kubectl patch deployment metrics-server -n kube-system --type='json' \
     -p='[{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--kubelet-insecure-tls"}]' || true
 
-  echo "[info] Waiting briefly for metrics-server to be available (up to 30s)..."
-  kubectl wait --for=condition=Available --timeout=30s deployment/metrics-server -n kube-system || echo "[warn] metrics-server may not be fully ready yet"
+  echo "[info] Waiting for metrics-server to start..."
+  kubectl wait --for=condition=Available --timeout=60s deployment/metrics-server -n kube-system 2>/dev/null || echo "[warn] metrics-server may not be fully ready yet"
 else
   echo "[info] metrics-server already exists"
 fi
@@ -68,10 +68,7 @@ spec:
             memory: 256Mi
 YAML
 
-kubectl rollout status deploy/apache-deployment -n autoscale --timeout=120s || true
+kubectl rollout status deploy/apache-deployment -n autoscale --timeout=90s 2>/dev/null || true
 kubectl get deploy,po -n autoscale || true
 
-echo "[info] Waiting for metrics to be available (this may take 30-60 seconds)..."
-sleep 10
-
-echo "✅ Setup complete. Proceed to Step 1."
+echo "✅ Setup complete. Metrics will be available shortly."

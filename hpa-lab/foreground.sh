@@ -16,19 +16,47 @@ for i in {1..90}; do
   fi
 done
 
-# Wait for namespace and deployment to be created
-echo "   Waiting for setup to complete..."
-setup_complete=false
-for i in {1..120}; do
-  if kubectl get ns autoscale >/dev/null 2>&1 && \
-     kubectl -n autoscale get deploy apache-deployment >/dev/null 2>&1 && \
-     kubectl get deployment metrics-server -n kube-system >/dev/null 2>&1; then
-    setup_complete=true
-    echo "   ✓ Setup complete"
+# Wait for namespace
+echo "   Waiting for namespace..."
+for i in {1..30}; do
+  if kubectl get ns autoscale >/dev/null 2>&1; then
+    echo "   ✓ Namespace created"
     break
   fi
   sleep 2
 done
+
+# Wait for metrics-server (this is the slow part)
+echo "   Installing metrics-server (may take 1-2 minutes)..."
+metrics_ready=false
+for i in {1..60}; do
+  if kubectl get deployment metrics-server -n kube-system >/dev/null 2>&1; then
+    echo "   ✓ Metrics-server deployed"
+    metrics_ready=true
+    break
+  fi
+  sleep 2
+done
+
+# Wait for apache deployment
+if [ "$metrics_ready" = "true" ]; then
+  echo "   Waiting for apache deployment..."
+  for i in {1..30}; do
+    if kubectl -n autoscale get deploy apache-deployment >/dev/null 2>&1; then
+      echo "   ✓ Apache deployment created"
+      break
+    fi
+    sleep 2
+  done
+fi
+
+# Final verification
+setup_complete=false
+if kubectl get ns autoscale >/dev/null 2>&1 && \
+   kubectl -n autoscale get deploy apache-deployment >/dev/null 2>&1 && \
+   kubectl get deployment metrics-server -n kube-system >/dev/null 2>&1; then
+  setup_complete=true
+fi
 
 if [ "$setup_complete" = "false" ]; then
   echo ""

@@ -1,44 +1,14 @@
-Create the base WordPress Deployment (same style as other labs), then scale down to edit resources safely.
+Verify the base WordPress Deployment was created by the setup script, then scale down to 0 replicas before editing resource requests/limits.
 
-Apply the deployment:
+Check the deployment exists:
 
-```
-kubectl apply -f - <<'YAML'
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: wordpress
-  labels:
-    app: wordpress
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: wordpress
-  template:
-    metadata:
-      labels:
-        app: wordpress
-    spec:
-      initContainers:
-      - name: init-setup
-        image: busybox:stable
-        command: ["/bin/sh", "-c"]
-        args: ["echo init done; sleep 1"]
-      containers:
-      - name: main-app
-        image: busybox:stable
-        command: ["/bin/sh", "-c"]
-        args:
-          - while true; do echo "WordPress app running..."; sleep 5; done
-YAML
-```
+`kubectl get deploy wordpress`
 
-Wait for rollout (best-effort):
+Verify it has 3 replicas and includes an init container:
 
-`kubectl rollout status deploy/wordpress --timeout=120s || true`
+`kubectl describe deploy wordpress | grep -A2 "Init Containers\|Replicas"`
 
-Now scale down to 0 replicas before editing resource requests/limits:
+Now scale down to 0 replicas to safely edit resources:
 
 `kubectl scale deploy wordpress --replicas=0`
 
@@ -47,3 +17,5 @@ Now scale down to 0 replicas before editing resource requests/limits:
 Confirm there are no running Pods:
 
 `kubectl get pods -l app=wordpress`
+
+You should see "No resources found" - this confirms the deployment is scaled to 0 and ready for editing.

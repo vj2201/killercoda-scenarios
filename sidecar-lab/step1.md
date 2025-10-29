@@ -1,32 +1,20 @@
-Run this command to create the base Deployment (no shared volume yet):
+Verify the base WordPress Deployment was created by the setup script.
 
-```
-kubectl apply -f - <<'YAML'
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: wordpress
-  labels:
-    app: wordpress
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: wordpress
-  template:
-    metadata:
-      labels:
-        app: wordpress
-    spec:
-      containers:
-      - name: main-app
-        image: busybox:stable
-        command: ["/bin/sh", "-c"]
-        args:
-          - while true; do echo "WordPress app writing logs..." >> /var/log/wordpress.log; sleep 5; done
-YAML
-```
+Check the deployment exists:
+
+`kubectl get deploy wordpress`
 
 Verify the pod is running:
 
 `kubectl get pods -l app=wordpress`
+
+Check the deployment configuration (note: it has a volume but no sidecar yet):
+
+`kubectl describe deploy wordpress`
+
+You should see:
+- 1 replica running
+- A main container named `main-app` writing logs to `/var/log/wordpress.log`
+- A volume named `log-volume` mounted at `/var/log`
+
+In the next step, you'll edit this deployment to add a sidecar container that reads those logs.

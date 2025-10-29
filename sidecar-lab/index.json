@@ -13,7 +13,8 @@
       { "title": "Setup Environment", "text": "step1.md" },
       { "title": "Edit Deployment", "text": "step2.md" },
       { "title": "Check Logs", "text": "step3.md" }
-    ]
+    ],
+    "finish": { "text": "finish.md" }
   },
   "backend": { "imageid": "kubernetes" }
 }

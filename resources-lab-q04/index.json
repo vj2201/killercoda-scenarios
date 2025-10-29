@@ -13,7 +13,8 @@
       { "title": "Setup + Scale Down", "text": "step1.md" },
       { "title": "Edit Resources Fairly", "text": "step2.md" },
       { "title": "Scale Up + Verify", "text": "step3.md" }
-    ]
+    ],
+    "finish": { "text": "finish.md" }
   },
   "backend": { "imageid": "kubernetes" }
 }

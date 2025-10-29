@@ -1,5 +1,7 @@
 Create a list of all cert-manager CRDs and save it to `/root/resources.yaml`.
 
+> **Note**: Use `~/resources.yaml` or `/root/resources.yaml` (not `~/root/` which would create `/root/root/`)
+
 Get all CRDs and filter for cert-manager:
 
 `kubectl get crd | grep cert-manager`
@@ -11,7 +13,7 @@ This shows names but not in a format suitable for saving.
 Get all CRDs in YAML format and filter:
 
 ```bash
-kubectl get crd -o yaml | grep -A 100 "cert-manager.io" > /root/resources.yaml
+kubectl get crd -o yaml | grep -A 100 "cert-manager.io" > ~/resources.yaml
 ```
 
 **Option 2: Using labels (if available)**
@@ -30,7 +32,7 @@ kubectl get crd \
   clusterissuers.cert-manager.io \
   issuers.cert-manager.io \
   orders.acme.cert-manager.io \
-  -o yaml > /root/resources.yaml
+  -o yaml > ~/resources.yaml
 ```
 
 **Option 4: Using JSONPath to filter (most precise)**
@@ -38,20 +40,20 @@ kubectl get crd \
 ```bash
 kubectl get crd -o json | \
   jq '.items[] | select(.metadata.name | contains("cert-manager"))' | \
-  kubectl apply --dry-run=client -o yaml -f - > /root/resources.yaml
+  kubectl apply --dry-run=client -o yaml -f - > ~/resources.yaml
 ```
 
 Or simpler with grep on names:
 
 ```bash
 kubectl get crd -o name | grep cert-manager | \
-  xargs kubectl get -o yaml > /root/resources.yaml
+  xargs kubectl get -o yaml > ~/resources.yaml
 ```
 
 **Recommended approach for the exam:**
 
 ```bash
-kubectl get crd -o name | grep cert-manager | xargs kubectl get -o yaml > /root/resources.yaml
+kubectl get crd -o name | grep cert-manager | xargs kubectl get -o yaml > ~/resources.yaml
 ```
 
 This:
@@ -62,16 +64,16 @@ This:
 
 Verify the file was created:
 
-`ls -lh /root/resources.yaml`
+`ls -lh ~/resources.yaml`
 
 Check the contents (first 20 lines):
 
-`head -20 /root/resources.yaml`
+`head -20 ~/resources.yaml`
 
 You should see YAML with `apiVersion: apiextensions.k8s.io/v1` and CRD definitions.
 
 Count how many cert-manager CRDs were saved:
 
-`grep -c "kind: CustomResourceDefinition" /root/resources.yaml`
+`grep -c "kind: CustomResourceDefinition" ~/resources.yaml`
 
 In the next step, you'll extract API documentation for a specific field.

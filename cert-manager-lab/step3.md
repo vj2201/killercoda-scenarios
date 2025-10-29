@@ -1,5 +1,7 @@
 Extract the documentation for the `subject` specification field of the Certificate Custom Resource and save it to `/root/subject.yaml`.
 
+> **Note**: The resource name is `Certificate` (with capital C, and make sure to spell it correctly: certif**i**cate)
+
 First, understand the Certificate resource structure:
 
 `kubectl explain Certificate`
@@ -21,7 +23,7 @@ This displays the documentation for the `subject` field.
 **Now save it to a file:**
 
 ```bash
-kubectl explain Certificate.spec.subject > /root/subject.yaml
+kubectl explain Certificate.spec.subject > ~/subject.yaml
 ```
 
 **Alternative formats:**
@@ -30,32 +32,32 @@ While the task says "any output format", `kubectl explain` outputs in a human-re
 
 **Option 1: Plain text (default)**
 ```bash
-kubectl explain Certificate.spec.subject > /root/subject.yaml
+kubectl explain Certificate.spec.subject > ~/subject.yaml
 ```
 
 **Option 2: Using --output (newer kubectl versions)**
 ```bash
-kubectl explain Certificate.spec.subject --output plaintext-openapiv2 > /root/subject.yaml
+kubectl explain Certificate.spec.subject --output plaintext-openapiv2 > ~/subject.yaml
 ```
 
 **Option 3: Get the schema from the CRD directly**
 ```bash
-kubectl get crd certificates.cert-manager.io -o jsonpath='{.spec.versions[0].schema.openAPIV3Schema.properties.spec.properties.subject}' | jq '.' > /root/subject.yaml
+kubectl get crd certificates.cert-manager.io -o jsonpath='{.spec.versions[0].schema.openAPIV3Schema.properties.spec.properties.subject}' | jq '.' > ~/subject.yaml
 ```
 
 **Recommended for the exam (simplest):**
 
 ```bash
-kubectl explain Certificate.spec.subject > /root/subject.yaml
+kubectl explain Certificate.spec.subject > ~/subject.yaml
 ```
 
 Verify the file was created:
 
-`ls -lh /root/subject.yaml`
+`ls -lh ~/subject.yaml`
 
 View the contents:
 
-`cat /root/subject.yaml`
+`cat ~/subject.yaml`
 
 You should see documentation describing:
 - What the `subject` field is for
@@ -85,7 +87,7 @@ Get specific sub-field docs:
 Verify both task files exist:
 
 ```bash
-ls -lh /root/resources.yaml /root/subject.yaml
+ls -lh ~/resources.yaml ~/subject.yaml
 ```
 
 You've successfully completed both tasks!

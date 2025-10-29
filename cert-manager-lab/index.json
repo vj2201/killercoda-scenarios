@@ -1,0 +1,20 @@
+{
+  "title": "CKA Practice: CRD Exploration & kubectl explain",
+  "description": "Work with Custom Resource Definitions and extract API documentation using kubectl explain.",
+  "difficulty": "intermediate",
+  "time": "15 minutes",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh",
+      "background": "setup.sh"
+    },
+    "steps": [
+      { "title": "Verify & Explore CRDs", "text": "step1.md" },
+      { "title": "Save CRDs to File", "text": "step2.md" },
+      { "title": "Extract API Docs", "text": "step3.md" }
+    ],
+    "finish": { "text": "finish.md" }
+  },
+  "backend": { "imageid": "kubernetes" }
+}

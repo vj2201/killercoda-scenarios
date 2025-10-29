@@ -1,0 +1,27 @@
+{
+  "title": "TLS Configuration with ConfigMap",
+  "description": "Configure nginx TLS settings via ConfigMap and verify TLS version restrictions",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh",
+      "background": "setup.sh"
+    },
+    "steps": [
+      {
+        "title": "Step 1: Configure TLS Version",
+        "text": "step1.md"
+      },
+      {
+        "title": "Step 2: Add /etc/hosts and Verify",
+        "text": "step2.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

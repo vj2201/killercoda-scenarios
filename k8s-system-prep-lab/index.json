@@ -1,0 +1,27 @@
+{
+  "title": "Kubernetes System Preparation",
+  "description": "Prepare a Linux system for Kubernetes with cri-dockerd and kernel parameters",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh",
+      "background": "setup.sh"
+    },
+    "steps": [
+      {
+        "title": "Install and Configure cri-dockerd",
+        "text": "step1.md"
+      },
+      {
+        "title": "Configure System Parameters",
+        "text": "step2.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu:2204"
+  }
+}

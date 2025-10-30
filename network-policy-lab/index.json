@@ -1,8 +1,6 @@
 {
-  "title": "CKA Practice: Network Policies (Frontend ↔ Backend)",
-  "description": "Choose and apply the least‑permissive NetworkPolicy that allows frontend to reach backend across namespaces.",
-  "difficulty": "intermediate",
-  "time": "15 minutes",
+  "title": "Network Policy: Least Permissive Access",
+  "description": "Create a least-permissive network policy to allow frontend-to-backend communication",
   "details": {
     "intro": {
       "text": "intro.md",
@@ -10,10 +8,16 @@
       "background": "setup.sh"
     },
     "steps": [
-      { "title": "Select Least‑Permissive Policy", "text": "step1.md" }
+      {
+        "title": "Create Network Policy",
+        "text": "step1.md"
+      }
     ],
-    "finish": { "text": "finish.md" }
+    "finish": {
+      "text": "finish.md"
+    }
   },
-  "backend": { "imageid": "kubernetes" }
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
 }
-

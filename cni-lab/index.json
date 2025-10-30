@@ -1,0 +1,19 @@
+{
+  "title": "CKA Practice: Install CNI with NetworkPolicy",
+  "description": "Install a Container Network Interface from a manifest that enables pod-to-pod networking and NetworkPolicy enforcement.",
+  "difficulty": "intermediate",
+  "time": "15 minutes",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh",
+      "background": "setup.sh"
+    },
+    "steps": [
+      { "title": "Choose and Install CNI", "text": "step1.md" }
+    ],
+    "finish": { "text": "finish.md" }
+  },
+  "backend": { "imageid": "kubernetes" }
+}
+

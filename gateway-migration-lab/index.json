@@ -1,0 +1,23 @@
+{
+  "title": "Ingress to Gateway API Migration",
+  "description": "Migrate an existing Ingress resource to the new Kubernetes Gateway API",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh",
+      "background": "setup.sh"
+    },
+    "steps": [
+      {
+        "title": "Migrate to Gateway API",
+        "text": "step1.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

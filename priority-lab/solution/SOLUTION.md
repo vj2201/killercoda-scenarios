@@ -4,13 +4,13 @@
 
 ```bash
 # List all PriorityClasses
-kubectl get pc
+kubectl get priorityclass
 
 # View with values
-kubectl get pc -o custom-columns=NAME:.metadata.name,VALUE:.value,GLOBAL-DEFAULT:.globalDefault
+kubectl get priorityclass -o custom-columns=NAME:.metadata.name,VALUE:.value,GLOBAL-DEFAULT:.globalDefault
 
 # Sort by value to find highest
-kubectl get pc --sort-by=.value -o custom-columns=NAME:.metadata.name,VALUE:.value
+kubectl get priorityclass --sort-by=.value -o custom-columns=NAME:.metadata.name,VALUE:.value
 ```
 
 Expected output shows:
@@ -37,7 +37,7 @@ YAML
 
 Verify:
 ```bash
-kubectl get pc high-priority
+kubectl get priorityclass high-priority
 kubectl describe pc high-priority
 ```
 
@@ -86,7 +86,7 @@ Priority:             999
 
 ```bash
 # 1. Inspect (find highest user-defined is 1000)
-kubectl get pc --sort-by=.value
+kubectl get priorityclass --sort-by=.value
 
 # 2. Create PriorityClass with value 999
 kubectl apply -f solution/high-priority.solution.yaml

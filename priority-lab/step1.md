@@ -4,19 +4,15 @@ List all PriorityClasses in the cluster:
 
 `kubectl get priorityclasses`
 
-or
-
-`kubectl get pc`
-
 You should see both system and user-defined PriorityClasses. System classes typically have names like `system-cluster-critical` or `system-node-critical` and very high values (often in the billions).
 
 View detailed information about all PriorityClasses:
 
-`kubectl get pc -o wide`
+`kubectl get priorityclass -o wide`
 
 To see just the names and values:
 
-`kubectl get pc -o custom-columns=NAME:.metadata.name,VALUE:.value,GLOBAL-DEFAULT:.globalDefault`
+`kubectl get priorityclass -o custom-columns=NAME:.metadata.name,VALUE:.value,GLOBAL-DEFAULT:.globalDefault`
 
 **Identify user-defined PriorityClasses:**
 - User-defined classes typically have lower values (below 1000000000)
@@ -26,7 +22,7 @@ To see just the names and values:
 **Find the highest value:**
 You need to determine which user-defined PriorityClass has the highest value. You can sort by value:
 
-`kubectl get pc --sort-by=.value -o custom-columns=NAME:.metadata.name,VALUE:.value`
+`kubectl get priorityclass --sort-by=.value -o custom-columns=NAME:.metadata.name,VALUE:.value`
 
 Take note of the highest user-defined priority value - you'll need to create a new PriorityClass with a value exactly **one less** than this in the next step.
 

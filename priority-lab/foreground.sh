@@ -22,7 +22,7 @@ setup_complete=false
 for i in {1..60}; do
   if kubectl get ns priority >/dev/null 2>&1 && \
      kubectl -n priority get deploy busybox-logger >/dev/null 2>&1 && \
-     kubectl get pc medium-priority >/dev/null 2>&1; then
+     kubectl get priorityclass medium-priority >/dev/null 2>&1; then
     setup_complete=true
     echo "   ✓ Setup complete"
     break
@@ -37,7 +37,7 @@ if [ "$setup_complete" = "false" ]; then
   echo ""
   echo "   To check status, run:"
   echo "   kubectl get ns priority"
-  echo "   kubectl get pc"
+  echo "   kubectl get priorityclass"
   echo "   kubectl get deploy -n priority"
   echo ""
   echo "   If resources are missing, manually run: bash /root/setup.sh"

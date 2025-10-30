@@ -20,11 +20,11 @@ YAML
 
 Verify the PriorityClass was created:
 
-`kubectl get pc high-priority`
+`kubectl get priorityclass high-priority`
 
 View its details:
 
-`kubectl describe pc high-priority`
+`kubectl describe priorityclass high-priority`
 
 You should see:
 - Name: `high-priority`

@@ -1,24 +1,30 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
-echo "🚀 Setting up CKA Priority Class Practice Lab"
+echo "🚀 Setting up CKA Priority Class Practice Lab" >&2
 
-echo "[info] Waiting for Kubernetes API & Ready node..."
-for i in {1..90}; do
+echo "[info] Waiting for Kubernetes API & Ready node..." >&2
+for i in {1..120}; do
   if kubectl get nodes --no-headers 2>/dev/null | grep -q " Ready "; then
-    echo "[info] Cluster Ready"
+    echo "[info] Cluster Ready" >&2
     break
   fi
   sleep 2
-  if [ "$i" -eq 90 ]; then echo "[warn] Proceeding without Ready confirmation"; fi
+  if [ "$i" -eq 120 ]; then
+    echo "[warn] Proceeding without Ready confirmation" >&2
+  fi
 done
 
+# Additional wait for API server to be fully ready
+echo "[info] Waiting for API server to be fully ready..." >&2
+sleep 5
+
 # Create namespace
-echo "[info] Creating priority namespace..."
+echo "[info] Creating priority namespace..." >&2
 kubectl get ns priority >/dev/null 2>&1 || kubectl create ns priority
 
 # Create user-defined PriorityClasses
-echo "[info] Creating user-defined PriorityClasses..."
+echo "[info] Creating user-defined PriorityClasses..." >&2
 kubectl apply -f - <<'YAML'
 apiVersion: scheduling.k8s.io/v1
 kind: PriorityClass
@@ -38,7 +44,7 @@ description: "Normal priority for regular workloads"
 YAML
 
 # Create busybox-logger deployment without priorityClassName
-echo "[info] Creating busybox-logger deployment..."
+echo "[info] Creating busybox-logger deployment..." >&2
 kubectl apply -f - <<'YAML'
 apiVersion: apps/v1
 kind: Deployment
@@ -65,7 +71,11 @@ spec:
           - while true; do echo "$(date): Logging message"; sleep 10; done
 YAML
 
-kubectl rollout status deploy/busybox-logger -n priority --timeout=120s || true
-kubectl get deploy,po -n priority || true
+echo "[info] Waiting for deployment rollout..." >&2
+kubectl rollout status deploy/busybox-logger -n priority --timeout=120s 2>&1 || echo "[warn] Rollout timed out, but continuing..." >&2
 
-echo "✅ Setup complete. Proceed to Step 1."
+echo "[info] Current resources:" >&2
+kubectl get priorityclass 2>&1 | grep -E "medium-priority|normal-priority" || echo "[warn] PriorityClasses not found" >&2
+kubectl get deploy,po -n priority 2>&1 || echo "[warn] Deployment not found" >&2
+
+echo "✅ Setup complete. Proceed to Step 1." >&2

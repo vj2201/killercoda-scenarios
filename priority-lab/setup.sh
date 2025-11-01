@@ -23,6 +23,10 @@ sleep 5
 echo "[info] Creating priority namespace..." >&2
 kubectl get ns priority >/dev/null 2>&1 || kubectl create ns priority
 
+# Wait for namespace to be fully ready
+echo "[info] Waiting for namespace to be ready..." >&2
+sleep 3
+
 # Create user-defined PriorityClasses
 echo "[info] Creating user-defined PriorityClasses..." >&2
 kubectl apply -f - <<'YAML'
@@ -45,7 +49,7 @@ YAML
 
 # Create busybox-logger deployment without priorityClassName
 echo "[info] Creating busybox-logger deployment..." >&2
-kubectl apply -f - <<'YAML'
+if kubectl apply -f - <<'YAML'
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -70,12 +74,32 @@ spec:
         args:
           - while true; do echo "$(date): Logging message"; sleep 10; done
 YAML
+then
+  echo "[info] Deployment created successfully" >&2
+else
+  echo "[error] Failed to create deployment" >&2
+  exit 1
+fi
+
+# Verify deployment exists
+echo "[info] Verifying deployment exists..." >&2
+if kubectl get deployment busybox-logger -n priority >/dev/null 2>&1; then
+  echo "[info] Deployment verified" >&2
+else
+  echo "[error] Deployment not found after creation!" >&2
+  exit 1
+fi
 
 echo "[info] Waiting for deployment rollout..." >&2
-kubectl rollout status deploy/busybox-logger -n priority --timeout=120s 2>&1 || echo "[warn] Rollout timed out, but continuing..." >&2
+kubectl rollout status deploy/busybox-logger -n priority --timeout=120s 2>&1 || {
+  echo "[warn] Rollout timed out or failed, but deployment exists" >&2
+  echo "[info] Checking deployment status:" >&2
+  kubectl get deploy,po -n priority 2>&1 || true
+}
 
 echo "[info] Current resources:" >&2
 kubectl get priorityclass 2>&1 | grep -E "medium-priority|normal-priority" || echo "[warn] PriorityClasses not found" >&2
-kubectl get deploy,po -n priority 2>&1 || echo "[warn] Deployment not found" >&2
+echo "[info] Deployments and pods in priority namespace:" >&2
+kubectl get deploy,po -n priority 2>&1 || echo "[warn] Resources not found" >&2
 
 echo "✅ Setup complete. Proceed to Step 1." >&2

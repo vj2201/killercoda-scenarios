@@ -2,7 +2,7 @@ Inspect existing PriorityClasses and identify the highest user-defined priority 
 
 List all PriorityClasses in the cluster:
 
-`kubectl get priorityclasses`
+`kubectl get priorityclass`
 
 You should see both system and user-defined PriorityClasses. System classes typically have names like `system-cluster-critical` or `system-node-critical` and very high values (often in the billions).
 

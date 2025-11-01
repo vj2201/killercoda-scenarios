@@ -65,7 +65,7 @@ spec:
     spec:
       containers:
       - name: logger
-        image: busybox:stable
+        image: registry.k8s.io/busybox:1.36.1
         command: ["/bin/sh", "-c"]
         args:
           - while true; do echo "$(date): Logging message"; sleep 10; done

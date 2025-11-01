@@ -16,6 +16,8 @@ if kubectl get ns priority >/dev/null 2>&1; then
 else
   if [ -x /root/setup.sh ]; then
     bash /root/setup.sh || true
+  elif [ -x /root/background.sh ]; then
+    bash /root/background.sh || true
   fi
 fi
 

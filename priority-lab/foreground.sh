@@ -44,7 +44,9 @@ if [ "$setup_complete" = "false" ]; then
   echo "   kubectl get priorityclass"
   echo "   kubectl get deploy -n priority"
   echo ""
-  echo "   If resources are missing, manually run: bash /root/setup.sh"
+  echo "   If resources are missing, manually run:"
+  echo "   bash /root/setup.sh  # or, depending on the environment"
+  echo "   bash /root/background.sh"
   echo ""
 else
   echo ""
@@ -56,4 +58,3 @@ else
     echo ""
   fi
 fi
-

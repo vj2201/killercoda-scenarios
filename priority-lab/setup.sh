@@ -27,6 +27,9 @@ globalDefault: false
 description: "Normal priority for regular workloads"
 EOF
 
+echo "[info] Verifying PriorityClasses..." >&2
+kubectl get priorityclass medium-priority normal-priority >&2 || echo "[warn] PriorityClasses not found" >&2
+
 # Create busybox-logger deployment without priorityClassName
 echo "[info] Creating busybox-logger deployment..." >&2
 cat <<EOF | kubectl apply -f -
@@ -55,4 +58,7 @@ spec:
           - "while true; do echo \$(date): Logging message; sleep 10; done"
 EOF
 
-echo "✅ Setup complete. Resources are being created..." >&2
+echo "[info] Verifying deployment..." >&2
+kubectl get deploy -n priority >&2 || echo "[warn] Deployment not found" >&2
+
+echo "✅ Setup complete. All resources created." >&2

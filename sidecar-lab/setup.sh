@@ -3,26 +3,6 @@ set -e
 
 echo "🚀 Setting up CKA Sidecar Practice Lab..."
 echo "Creating base deployment (without sidecar)..."
-
-# Wait for Kubernetes API and nodes to be ready (up to ~3 minutes)
-echo "Waiting for Kubernetes API to become ready..."
-for i in {1..90}; do
-  if kubectl version >/dev/null 2>&1; then
-    if kubectl get nodes >/dev/null 2>&1; then
-      # Try to ensure at least one node is Ready
-      if kubectl get nodes --no-headers 2>/dev/null | grep -q " Ready "; then
-        echo "Kubernetes API and node(s) are ready."
-        break
-      fi
-    fi
-  fi
-  sleep 2
-  if [ "$i" -eq 90 ]; then
-    echo "Warning: Kubernetes not fully ready yet, continuing anyway..."
-  fi
-done
-
-echo "Applying base Deployment manifest..."
 kubectl apply -f - <<'EOF'
 apiVersion: apps/v1
 kind: Deployment
@@ -53,12 +33,6 @@ spec:
       - name: log-volume
         emptyDir: {}
 EOF
-
-# Wait for the deployment to become available, but don't fail the script if it takes longer
-kubectl rollout status deployment/wordpress --timeout=120s || true
-
-# Verify pod
-kubectl get deploy,po -l app=wordpress || true
 
 echo
 echo "✅ Base deployment created!"

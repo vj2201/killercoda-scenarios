@@ -1,8 +1,8 @@
 #!/bin/bash
-set -euo pipefail
+set -e
 
 echo "[setup] Creating nginx-static namespace..."
-kubectl create namespace nginx-static 2>/dev/null || true
+kubectl create namespace nginx-static --dry-run=client -o yaml | kubectl apply -f -
 
 echo "[setup] Generating TLS certificate..."
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
@@ -115,7 +115,4 @@ spec:
     name: https
 EOF
 
-echo "[setup] Waiting for deployment to be ready..."
-kubectl wait --for=condition=available --timeout=60s deployment/nginx-static -n nginx-static 2>/dev/null || true
-
-echo "[setup] Setup complete!"
+echo "[setup] Setup complete! Resources are being created..."

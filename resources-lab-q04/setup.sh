@@ -3,16 +3,6 @@ set -e
 
 echo "🚀 Setting up CKA Resources Practice (Q04)"
 
-echo "[info] Waiting for Kubernetes API & Ready node..."
-for i in {1..90}; do
-  if kubectl get nodes --no-headers 2>/dev/null | grep -q " Ready "; then
-    echo "[info] Cluster Ready"
-    break
-  fi
-  sleep 2
-  if [ "$i" -eq 90 ]; then echo "[warn] Proceeding without Ready confirmation"; fi
-done
-
 if kubectl get deploy wordpress >/dev/null 2>&1; then
   echo "[info] Deployment 'wordpress' already exists"
 else
@@ -48,8 +38,5 @@ spec:
 YAML
 fi
 
-kubectl rollout status deploy/wordpress --timeout=120s || true
-kubectl get deploy,po -l app=wordpress || true
-
-echo "✅ Setup complete. Proceed to Step 1."
+echo "✅ Setup complete. Resources are being created..."
 

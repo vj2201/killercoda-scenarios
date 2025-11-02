@@ -1,11 +1,11 @@
 #!/bin/bash
-set -euo pipefail
+set -e
 
 echo "[setup] Preparing lab: Ingress to Gateway API migration"
 
 ns=web-migration
 
-kubectl get ns "$ns" >/dev/null 2>&1 || kubectl create ns "$ns"
+kubectl create namespace "$ns" --dry-run=client -o yaml | kubectl apply -f -
 
 # Try to create TLS secret with openssl; if not available, use a minimal placeholder PEM
 if ! kubectl -n "$ns" get secret web-tls >/dev/null 2>&1; then
@@ -142,9 +142,5 @@ spec:
               number: 8080
 YAML
 
-echo "[setup] Waiting for pods to be Ready (best-effort)"
-kubectl -n "$ns" rollout status deploy/web-deploy --timeout=120s || true
-kubectl -n "$ns" rollout status deploy/api-deploy --timeout=120s || true
-
-echo "[setup] Done. Proceed to create Gateway and HTTPRoute."
+echo "[setup] Done. Resources are being created..."
 

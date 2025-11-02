@@ -3,19 +3,9 @@ set -e
 
 echo "🚀 Setting up CKA PersistentVolume Recovery Lab"
 
-echo "[info] Waiting for Kubernetes API & Ready node..."
-for i in {1..90}; do
-  if kubectl get nodes --no-headers 2>/dev/null | grep -q " Ready "; then
-    echo "[info] Cluster Ready"
-    break
-  fi
-  sleep 2
-  if [ "$i" -eq 90 ]; then echo "[warn] Proceeding without Ready confirmation"; fi
-done
-
 # Create namespace
 echo "[info] Creating mariadb namespace..."
-kubectl get ns mariadb >/dev/null 2>&1 || kubectl create ns mariadb
+kubectl create namespace mariadb --dry-run=client -o yaml | kubectl apply -f -
 
 # Create directory for PV on the node
 echo "[info] Creating data directory for PersistentVolume..."

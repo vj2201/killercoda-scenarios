@@ -13,22 +13,22 @@ cat <<EOF | kubectl apply -f -
 apiVersion: scheduling.k8s.io/v1
 kind: PriorityClass
 metadata:
-  name: medium-priority
+  name: user-medium-priority
 value: 1000
 globalDefault: false
-description: "Medium priority for important workloads"
+description: "User-defined: Medium priority for important workloads"
 ---
 apiVersion: scheduling.k8s.io/v1
 kind: PriorityClass
 metadata:
-  name: normal-priority
+  name: user-normal-priority
 value: 500
 globalDefault: false
-description: "Normal priority for regular workloads"
+description: "User-defined: Normal priority for regular workloads"
 EOF
 
 echo "[info] Verifying PriorityClasses..." >&2
-kubectl get priorityclass medium-priority normal-priority >&2 || echo "[warn] PriorityClasses not found" >&2
+kubectl get priorityclass user-medium-priority user-normal-priority >&2 || echo "[warn] PriorityClasses not found" >&2
 
 # Create busybox-logger deployment without priorityClassName
 echo "[info] Creating busybox-logger deployment..." >&2

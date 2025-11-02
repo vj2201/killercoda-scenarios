@@ -4,7 +4,7 @@ This lab helps you practice working with Kubernetes PriorityClasses - a common C
 
 ## Scenario
 
-You're working in a cluster with an existing deployment named `busybox-logger` in the `priority` namespace. The cluster has user-defined PriorityClasses. Your task is to:
+You're working in a cluster with an existing deployment named `busybox-logger` in the `priority` namespace. The cluster has user-defined PriorityClasses (with `user-` prefix). Your task is to:
 
 1. Inspect existing PriorityClasses and identify the highest user-defined priority value
 2. Create a new PriorityClass named `high-priority` with value exactly one less than the highest

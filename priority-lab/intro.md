@@ -1,7 +1,7 @@
 You will work with Kubernetes PriorityClasses to control pod scheduling priority.
 
 **Scenario:**
-You're working in a cluster with an existing deployment named `busybox-logger` running in the `priority` namespace. The cluster already has at least one user-defined PriorityClass.
+You're working in a cluster with an existing deployment named `busybox-logger` running in the `priority` namespace. The cluster already has user-defined PriorityClasses (prefixed with `user-`).
 
 **Tasks:**
 1. Inspect existing PriorityClasses and identify user-defined ones (excluding system classes)

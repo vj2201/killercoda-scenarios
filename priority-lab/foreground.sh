@@ -25,7 +25,7 @@ for i in {1..120}; do
   pc_ok=false
   if kubectl get ns priority >/dev/null 2>&1; then ns_ok=true; fi
   if kubectl -n priority get deploy busybox-logger >/dev/null 2>&1; then dep_ok=true; fi
-  if kubectl get priorityclass medium-priority >/dev/null 2>&1 && kubectl get priorityclass normal-priority >/dev/null 2>&1; then pc_ok=true; fi
+  if kubectl get priorityclass user-medium-priority >/dev/null 2>&1 && kubectl get priorityclass user-normal-priority >/dev/null 2>&1; then pc_ok=true; fi
   if [ "$ns_ok" = "true" ] && [ "$dep_ok" = "true" ] && [ "$pc_ok" = "true" ]; then
     setup_complete=true
     echo "   Setup complete"
@@ -45,23 +45,23 @@ if [ "$setup_complete" = "false" ]; then
   echo "   kubectl get deploy -n priority"
   echo ""
   echo "   Attempting to ensure PriorityClasses exist..."
-  if ! kubectl get priorityclass medium-priority >/dev/null 2>&1 || ! kubectl get priorityclass normal-priority >/dev/null 2>&1; then
+  if ! kubectl get priorityclass user-medium-priority >/dev/null 2>&1 || ! kubectl get priorityclass user-normal-priority >/dev/null 2>&1; then
     kubectl apply -f - <<'YAML' || true
 apiVersion: scheduling.k8s.io/v1
 kind: PriorityClass
 metadata:
-  name: medium-priority
+  name: user-medium-priority
 value: 1000
 globalDefault: false
-description: "Medium priority for important workloads"
+description: "User-defined: Medium priority for important workloads"
 ---
 apiVersion: scheduling.k8s.io/v1
 kind: PriorityClass
 metadata:
-  name: normal-priority
+  name: user-normal-priority
 value: 500
 globalDefault: false
-description: "Normal priority for regular workloads"
+description: "User-defined: Normal priority for regular workloads"
 YAML
   fi
   echo "   If resources are missing, manually run:"
@@ -72,7 +72,7 @@ else
   echo "Ready! Proceed to Step 1."
   echo ""
   echo "Verify resources are ready:"
-  echo "   kubectl get priorityclass medium-priority normal-priority"
+  echo "   kubectl get priorityclass user-medium-priority user-normal-priority"
   echo "   kubectl get deploy -n priority"
   echo ""
 fi

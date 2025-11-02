@@ -1,17 +1,9 @@
 #!/bin/bash
-set -euo pipefail
+set -e
 
 echo "[setup] MariaDB recover lab: preparing retained PV and template"
 
-# Wait for a Ready node
-for i in {1..90}; do
-  if kubectl get nodes --no-headers 2>/dev/null | grep -q " Ready "; then
-    break
-  fi
-  sleep 2
-done
-
-kubectl get ns mariadb >/dev/null 2>&1 || kubectl create ns mariadb
+kubectl create namespace mariadb --dry-run=client -o yaml | kubectl apply -f -
 
 # Ensure any previous resources are removed to simulate accidental deletion
 kubectl -n mariadb delete deploy mariadb --ignore-not-found

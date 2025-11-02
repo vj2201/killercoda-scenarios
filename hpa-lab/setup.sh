@@ -3,19 +3,9 @@ set -e
 
 echo "🚀 Setting up CKA HorizontalPodAutoscaler Practice Lab"
 
-echo "[info] Waiting for Kubernetes API & Ready node..."
-for i in {1..90}; do
-  if kubectl get nodes --no-headers 2>/dev/null | grep -q " Ready "; then
-    echo "[info] Cluster Ready"
-    break
-  fi
-  sleep 2
-  if [ "$i" -eq 90 ]; then echo "[warn] Proceeding without Ready confirmation"; fi
-done
-
 # Create namespace
 echo "[info] Creating autoscale namespace..."
-kubectl get ns autoscale >/dev/null 2>&1 || kubectl create ns autoscale
+kubectl create namespace autoscale --dry-run=client -o yaml | kubectl apply -f -
 
 # Install metrics-server (required for HPA)
 echo "[info] Checking for metrics-server..."
@@ -28,8 +18,7 @@ if ! kubectl get deployment metrics-server -n kube-system >/dev/null 2>&1; then
   kubectl patch deployment metrics-server -n kube-system --type='json' \
     -p='[{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--kubelet-insecure-tls"}]' || true
 
-  echo "[info] Waiting for metrics-server to start..."
-  kubectl wait --for=condition=Available --timeout=60s deployment/metrics-server -n kube-system 2>/dev/null || echo "[warn] metrics-server may not be fully ready yet"
+  echo "[info] metrics-server is starting..."
 else
   echo "[info] metrics-server already exists"
 fi
@@ -67,8 +56,5 @@ spec:
             cpu: 200m
             memory: 256Mi
 YAML
-
-kubectl rollout status deploy/apache-deployment -n autoscale --timeout=90s 2>/dev/null || true
-kubectl get deploy,po -n autoscale || true
 
 echo "✅ Setup complete. Metrics will be available shortly."

@@ -1,9 +1,9 @@
 #!/bin/bash
-set -euo pipefail
+set -e
 
 echo "[setup] Creating namespaces..."
-kubectl create namespace frontend 2>/dev/null || true
-kubectl create namespace backend 2>/dev/null || true
+kubectl create namespace frontend --dry-run=client -o yaml | kubectl apply -f -
+kubectl create namespace backend --dry-run=client -o yaml | kubectl apply -f -
 
 echo "[setup] Creating Backend deployment..."
 kubectl apply -f - <<'EOF'
@@ -96,10 +96,4 @@ spec:
     name: http
 EOF
 
-echo "[setup] Waiting for deployments to be ready..."
-kubectl wait --for=condition=available --timeout=60s deployment/backend -n backend 2>/dev/null || true
-kubectl wait --for=condition=available --timeout=60s deployment/frontend -n frontend 2>/dev/null || true
-
-echo "[setup] Setup complete!"
-kubectl get pods -n frontend
-kubectl get pods -n backend
+echo "[setup] Setup complete! Resources are being created..."

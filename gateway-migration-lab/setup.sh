@@ -1,38 +1,13 @@
 #!/bin/bash
-set -euo pipefail
-
-echo "[setup] Waiting for Kubernetes cluster..." >&2
-for i in {1..60}; do
-  if kubectl get nodes --no-headers 2>/dev/null | grep -q " Ready "; then
-    echo "[setup] Cluster ready" >&2
-    break
-  fi
-  sleep 2
-done
+set -e
 
 echo "[setup] Creating namespace..." >&2
-kubectl create namespace web-app 2>/dev/null || true
+kubectl create namespace web-app --dry-run=client -o yaml | kubectl apply -f -
 
 echo "[setup] Installing Gateway API CRDs..." >&2
 kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml
 
-echo "[setup] Waiting for Gateway API CRDs to be established..." >&2
-for i in {1..30}; do
-  if kubectl get crd gateways.gateway.networking.k8s.io >/dev/null 2>&1 && \
-     kubectl get crd httproutes.gateway.networking.k8s.io >/dev/null 2>&1 && \
-     kubectl get crd gatewayclasses.gateway.networking.k8s.io >/dev/null 2>&1; then
-    echo "[setup] Gateway API CRDs ready" >&2
-    break
-  fi
-  echo "[setup] Waiting for CRDs... (attempt $i/30)" >&2
-  sleep 2
-done
-
-# Additional wait for CRD to be fully established
-sleep 3
-
-echo "[setup] Verifying CRDs:" >&2
-kubectl get crd | grep gateway >&2 || echo "[warn] Gateway CRDs not found!" >&2
+echo "[setup] Gateway API CRDs are being established..." >&2
 
 echo "[setup] Creating GatewayClass..." >&2
 kubectl apply -f - <<'EOF'
@@ -125,17 +100,4 @@ spec:
               number: 80
 EOF
 
-echo "[setup] Waiting for deployment..." >&2
-kubectl wait --for=condition=available --timeout=60s deployment/web-app -n web-app 2>/dev/null || true
-
-echo "[setup] Setup complete!" >&2
-echo "" >&2
-echo "Existing resources created:" >&2
-kubectl get ingress -n web-app >&2
-kubectl get pods -n web-app >&2
-echo "" >&2
-echo "Gateway API CRDs:" >&2
-kubectl get crd | grep gateway >&2
-echo "" >&2
-echo "GatewayClass available:" >&2
-kubectl get gatewayclass >&2
+echo "[setup] Setup complete! Resources are being created..." >&2

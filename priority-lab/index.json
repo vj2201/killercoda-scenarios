@@ -10,9 +10,7 @@
       "background": "setup.sh"
     },
     "steps": [
-      { "title": "Inspect PriorityClasses", "text": "step1.md" },
-      { "title": "Create high-priority Class", "text": "step2.md" },
-      { "title": "Patch Deployment", "text": "step3.md" }
+      { "title": "Solution", "text": "solution.md" }
     ],
     "finish": { "text": "finish.md" }
   },

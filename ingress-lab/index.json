@@ -10,10 +10,7 @@
       "background": "setup.sh"
     },
     "steps": [
-      { "title": "Verify Deployment", "text": "step1.md" },
-      { "title": "Create NodePort Service", "text": "step2.md" },
-      { "title": "Create Ingress Resource", "text": "step3.md" },
-      { "title": "Test with curl", "text": "step4.md" }
+      { "title": "Solution", "text": "solution.md" }
     ],
     "finish": { "text": "finish.md" }
   },

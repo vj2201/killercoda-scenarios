@@ -1,23 +1,16 @@
-You will expose a deployment using a Service and create an Ingress resource to route HTTP traffic.
+# Expose Service with Ingress
 
-**Scenario:**
-An existing deployment named `echo-deployment` is running in the `echo-sound` namespace. You need to expose it externally using Kubernetes Ingress.
+## Scenario
+A deployment `echo-deployment` is running in namespace `echo-sound` on port 5678.
 
-**Tasks:**
-1. Expose the existing deployment with a Service called `echo-service` using Service Port 8080, type NodePort
-2. Create a new Ingress resource named `echo` in the `echo-sound` namespace for `http://example.org/echo`
-3. Verify the Service availability using curl commands
+## Your Task
+1. Create a NodePort Service named `echo-service` on port 8080 (targeting container port 5678)
+2. Create an Ingress named `echo` for `http://example.org/echo`
+3. Test connectivity with curl
 
-**Key Concepts:**
-- Services provide stable endpoints for pods
-- NodePort services expose pods on a specific port on all nodes
-- Ingress resources provide HTTP/HTTPS routing to services
-- Ingress controllers (like nginx) implement the Ingress specification
-- Host-based and path-based routing can be configured
+## Success Criteria
+- Service `echo-service` exists with type NodePort
+- Ingress `echo` routes traffic to the service
+- curl request succeeds with HTTP 200
 
-**Note:** The setup script has already:
-- Created the `echo-sound` namespace
-- Deployed `echo-deployment` (2 replicas running on port 5678)
-- Installed nginx ingress controller
-
-You will create the Service and Ingress to expose this deployment.
+Click **"Next"** for the solution.

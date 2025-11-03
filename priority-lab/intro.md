@@ -1,17 +1,16 @@
-You will work with Kubernetes PriorityClasses to control pod scheduling priority.
+# Configure PriorityClass
 
-**Scenario:**
-You're working in a cluster with an existing deployment named `busybox-logger` running in the `priority` namespace. The cluster already has user-defined PriorityClasses (prefixed with `user-`).
+## Scenario
+You have a deployment `busybox-logger` in namespace `priority`. The cluster has two user-defined PriorityClasses:
+- `user-medium-priority` (value: 1000)
+- `user-normal-priority` (value: 500)
 
-**Tasks:**
-1. Inspect existing PriorityClasses and identify user-defined ones (excluding system classes)
-2. Create a new PriorityClass named `high-priority` for user workloads with a value exactly one less than the highest existing user-defined priority class
-3. Patch the existing deployment `busybox-logger` to use the newly created `high-priority` class
+## Your Task
+1. Create a PriorityClass named `high-priority` with value **999** (one less than the highest)
+2. Update the `busybox-logger` deployment to use this new PriorityClass
 
-**Key Concepts:**
-- PriorityClasses control which pods are scheduled first when resources are limited
-- Higher priority values mean higher priority
-- System PriorityClasses (like `system-cluster-critical`) have very high values and should not be modified
-- User-defined PriorityClasses typically use values below 1000000000
+## Success Criteria
+- PriorityClass `high-priority` exists with value 999
+- Deployment pods run with `priorityClassName: high-priority`
 
-The setup script has already created the namespace, some PriorityClasses, and the deployment.
+Click **"Next"** to see the solution.

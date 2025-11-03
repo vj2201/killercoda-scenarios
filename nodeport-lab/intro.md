@@ -1,18 +1,15 @@
-You will configure a deployment to expose ports and create a NodePort Service.
+# Configure NodePort Service
 
-**Scenario:**
-A deployment named `nodeport-deployment` exists in the `relative` namespace but isn't properly configured for external access.
+## Scenario
+A deployment `nodeport-deployment` exists in namespace `relative` with nginx:1.24 but has NO `containerPort` defined.
 
-**Tasks:**
-1. Configure the deployment so it can be exposed on port 80 (add containerPort with name=http, protocol=TCP)
-2. Create a new Service named `nodeport-service` exposing container port 80, protocol TCP, NodePort 30080
-3. Configure the Service to expose individual pods using NodePort
+## Your Task
+1. Edit the deployment to add `containerPort: 80` with name `http`
+2. Create a NodePort Service named `nodeport-service` exposing port 30080
 
-**Key Concepts:**
-- **containerPort** - Declares which port the container listens on
-- **NodePort Service** - Exposes pods on a static port on each node
-- **Port mapping** - Service port → container port
-- **Selectors** - How Services find pods to route traffic to
-- **NodePort range** - 30000-32767 (default)
+## Success Criteria
+- Deployment has containerPort 80 configured
+- Service exists with NodePort 30080
+- Can curl http://NODE_IP:30080 successfully
 
-The setup has already created the `nodeport-deployment` with 2 replicas running nginx, but without containerPort configured.
+Click **"Next"** for the solution.

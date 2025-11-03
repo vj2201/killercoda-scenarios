@@ -1,6 +1,8 @@
 {
-  "title": "NodePort Service Configuration",
-  "description": "Configure deployment ports and create NodePort Services for external access",
+  "title": "CKA Practice: NodePort Service Configuration",
+  "description": "Configure containerPort and expose a deployment via NodePort Service.",
+  "difficulty": "intermediate",
+  "time": "15 minutes",
   "details": {
     "intro": {
       "text": "intro.md",
@@ -8,20 +10,9 @@
       "background": "setup.sh"
     },
     "steps": [
-      {
-        "title": "Step 1: Configure Deployment containerPort",
-        "text": "step1.md"
-      },
-      {
-        "title": "Step 2: Create NodePort Service",
-        "text": "step2.md"
-      }
+      { "title": "Solution", "text": "solution.md" }
     ],
-    "finish": {
-      "text": "finish.md"
-    }
+    "finish": { "text": "finish.md" }
   },
-  "backend": {
-    "imageid": "kubernetes-kubeadm-2nodes"
-  }
+  "backend": { "imageid": "kubernetes" }
 }

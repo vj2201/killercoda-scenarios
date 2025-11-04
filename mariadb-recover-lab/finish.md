@@ -1,11 +1,13 @@
-Wrap-up
+# Congratulations!
 
-- You recreated a PVC (`mariadb`) that matches the retained PV (250Mi, RWO)
-- You edited `/root/mariadb-deploy.yaml` to mount the PVC at `/var/lib/mysql`
-- The MariaDB deployment rolled out successfully and could access the retained data
-- The presence of `lab-proof/keepme.txt` confirms the mount is using the preserved volume
+You've successfully completed the MariaDB Data Recovery lab.
 
-Key checks:
-- `kubectl get pv,pvc -A` shows Bound
-- `kubectl -n mariadb get deploy,po` shows Ready pods
+## What You Learned
+- PVC mounting allows containers to access persistent data
+- Volume mounts specify container paths for persistent storage
+- Data validation confirms successful volume configuration
 
+## Key Takeaway
+Persistent volume mounts are essential for accessing pre-existing data in stateful applications.
+
+Keep practicing!

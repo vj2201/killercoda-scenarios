@@ -1,17 +1,17 @@
-Install a CNI via manifest that supports pod connectivity and NetworkPolicy enforcement.
+# CNI Installation with NetworkPolicy
 
-Requirements:
-- Pods can communicate with each other
-- NetworkPolicy enforcement works
-- Install from a manifest (no Helm)
+## Scenario
+Install a Container Network Interface that enables both pod-to-pod connectivity and NetworkPolicy enforcement.
 
-Provided reference manifests (exam-style links):
-- Flannel v0.26.1: https://github.com/flannel-io/flannel/releases/download/v0.26.1/kube-flannel.yml
-- Calico v3.28.2 (operator): https://raw.githubusercontent.com/projectcalico/calico/v3.28.2/manifests/tigera-operator.yaml
+## Your Task
+1. Install Calico operator from manifest
+2. Create Calico Installation with VXLAN encapsulation
+3. Verify Calico pods are running and NetworkPolicy enforcement works
 
-Task:
-- Choose a CNI that satisfies the requirements and install it from the linked manifest(s).
+## Success Criteria
+- Calico pods running in calico-system namespace
+- Pods can communicate across nodes
+- NetworkPolicy rules are enforced
+- Default-deny policy blocks traffic until explicit allow is created
 
-Hint:
-- Only one of the above enforces NetworkPolicy by itself.
-
+Click **"Next"** for the solution.

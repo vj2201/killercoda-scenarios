@@ -1,8 +1,8 @@
 {
-  "title": "CKA Practice: Add a Sidecar Container",
-  "description": "Learn how to add a sidecar container to a Kubernetes Deployment for log streaming using a shared volume.",
+  "title": "CKA Practice: Sidecar Container Pattern",
+  "description": "Add a sidecar container to a deployment for log collection.",
   "difficulty": "intermediate",
-  "time": "10 minutes",
+  "time": "15 minutes",
   "details": {
     "intro": {
       "text": "intro.md",
@@ -10,9 +10,7 @@
       "background": "setup.sh"
     },
     "steps": [
-      { "title": "Setup Environment", "text": "step1.md" },
-      { "title": "Edit Deployment", "text": "step2.md" },
-      { "title": "Check Logs", "text": "step3.md" }
+      { "title": "Solution", "text": "solution.md" }
     ],
     "finish": { "text": "finish.md" }
   },

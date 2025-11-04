@@ -1,15 +1,16 @@
-Recover a deleted MariaDB Deployment by reusing an existing retained PersistentVolume.
+# MariaDB Data Recovery
 
-Scenario:
-- Namespace `mariadb` exists but the MariaDB Deployment was deleted by accident.
-- Exactly one PersistentVolume exists, with `persistentVolumeReclaimPolicy: Retain` and capacity 250Mi.
-- A deployment spec is provided at `/root/mariadb-deploy.yaml` and must be edited to use a new PVC.
+## Scenario
+A MariaDB pod needs to mount a persistent volume at `/var/lib/mysql` to access pre-existing database data including the required proof file.
 
-Task Summary:
-1) Create a PVC named `mariadb` in the `mariadb` namespace:
-   - AccessMode: ReadWriteOnce
-   - Storage: 250Mi
-2) Edit `/root/mariadb-deploy.yaml` to mount the PVC
-3) Apply the deployment and ensure it is running and stable
-4) Verify data appears from the retained volume (a seeded file is provided)
+## Your Task
+1. Create a PersistentVolumeClaim (250Mi, RWO)
+2. Edit `/root/mariadb-deploy.yaml` to mount PVC at `/var/lib/mysql`
+3. Apply the deployment and verify `/var/lib/mysql/lab-proof/keepme.txt` exists
 
+## Success Criteria
+- MariaDB pod is running and healthy
+- `/var/lib/mysql/lab-proof/keepme.txt` file is accessible inside the container
+- PVC is bound and mounted correctly
+
+Click **"Next"** for the solution.

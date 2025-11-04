@@ -1,6 +1,6 @@
 {
-  "title": "CKA Practice: Migrate Ingress to Gateway API",
-  "description": "Migrate an existing Ingress to Kubernetes Gateway API while preserving HTTPS and routing rules.",
+  "title": "CKA Practice: Gateway API Configuration",
+  "description": "Create a Gateway and HTTPRoute for advanced traffic management with HTTPS termination.",
   "difficulty": "intermediate",
   "time": "15 minutes",
   "details": {
@@ -10,10 +10,7 @@
       "background": "setup.sh"
     },
     "steps": [
-      { "title": "Setup Environment", "text": "step1.md" },
-      { "title": "Create Gateway", "text": "step2.md" },
-      { "title": "Create HTTPRoute", "text": "step3.md" },
-      { "title": "Verify Migration", "text": "step4.md" }
+      { "title": "Solution", "text": "solution.md" }
     ],
     "finish": { "text": "finish.md" }
   },

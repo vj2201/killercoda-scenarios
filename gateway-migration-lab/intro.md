@@ -1,11 +1,17 @@
-## Question
+# Gateway API Migration
 
-You have an existing web application deployed in a Kubernetes cluster using an Ingress resource named `web`. You must migrate the existing Ingress configuration to the new Kubernetes Gateway API, maintaining the existing HTTPS access configuration.
+## Scenario
+Migrate an existing Ingress resource to Kubernetes Gateway API while maintaining HTTPS access and routing rules.
 
-**Tasks:**
+## Your Task
+1. Create Gateway (web-gateway, HTTPS, host gateway.web.k8s.local, TLS secret web-tls-secret) in web-app namespace
+2. Create HTTPRoute (web-route) with same hostname and routing rules in web-app namespace
+3. Verify both resources have Accepted/Programmed status
 
-1. Create a Gateway resource named `web-gateway` with hostname `gateway.web.k8s.local` that maintains the existing TLS and listener configuration from the existing Ingress resource named `web`.
+## Success Criteria
+- Gateway web-gateway is Programmed
+- HTTPRoute web-route is Accepted
+- Traffic routes correctly through Gateway API
+- All in web-app namespace
 
-2. Create an HTTPRoute resource named `web-route` with hostname `gateway.web.k8s.local` that maintains the existing routing rules from the current Ingress resource named `web`.
-
-**Note:** A GatewayClass named `nginx-class` is already installed in the cluster.
+Click **"Next"** for the solution.

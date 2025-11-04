@@ -1,25 +1,16 @@
-You will recover a MariaDB deployment after accidental deletion while preserving data using PersistentVolumes.
+# Persistent Volume Recovery
 
-**Scenario:**
-A user accidentally deleted the MariaDB Deployment in the `mariadb` namespace. The deployment was configured with persistent storage. Your responsibility is to re-establish the deployment while ensuring data is preserved by reusing the available PersistentVolume.
+## Scenario
+A MariaDB deployment was deleted but the data persists. You need to recover the deployment by creating a PVC and reconfiguring the storage.
 
-**Tasks:**
-1. Verify that a PersistentVolume exists and is retained for reuse (only one PV exists)
-2. Create a PersistentVolumeClaim (PVC) named `mariadb` in the mariadb namespace with:
-   - Access Mode: ReadWriteOnce
-   - Storage: 250Mi
-3. Edit the MariaDB Deployment file located at `~/mariadb-deploy.yaml` to use the PVC created
-4. Apply the updated Deployment file to the cluster
-5. Ensure the MariaDB Deployment is running and stable
+## Your Task
+1. Create a PersistentVolumeClaim (250Mi, RWO, storageClass: manual)
+2. Edit `/root/mariadb-deploy.yaml` to use the new PVC instead of emptyDir
+3. Apply the deployment and verify it's running
 
-**Key Concepts:**
-- **PersistentVolume (PV)** - Cluster-level storage resource
-- **PersistentVolumeClaim (PVC)** - Request for storage by a user
-- **Retain Policy** - PV data is preserved even after PVC deletion
-- **Binding** - PVC automatically binds to matching PV
-- **Volume Mounts** - How containers access PV storage
+## Success Criteria
+- PVC named `mariadb-pvc` is bound to the PersistentVolume
+- MariaDB Deployment is in Running state
+- Data persists across pod restarts
 
-The setup has already:
-- Created the `mariadb` namespace
-- Created a PersistentVolume `mariadb-pv` (500Mi, Available)
-- Created deployment template at `/root/mariadb-deploy.yaml`
+Click **"Next"** for the solution.

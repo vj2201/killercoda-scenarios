@@ -1,21 +1,16 @@
-## Question
+# Kubernetes System Preparation
 
-Prepare a Linux system for Kubernetes.  
-Docker is already installed, but you need to configure it for kubeadm.
+## Scenario
+Prepare a Linux system for Kubernetes cluster setup by installing cri-dockerd and configuring kernel parameters.
 
-**Task:**
+## Your Task
+1. Install ~/cri-dockerd.deb using dpkg and enable the service
+2. Configure sysctl parameters for Kubernetes networking
+3. Verify all components are properly configured
 
-Complete these tasks to prepare the system for Kubernetes:
+## Success Criteria
+- cri-docker service is running and enabled
+- All kernel parameters are set correctly
+- System is ready for kubeadm cluster initialization
 
-**1. Set up cri-dockerd:**
-
-- Install the Debian package: `~/cri-dockerd_0.3.9.3-0.ubuntu-jammy_amd64.deb`
-- Debian packages are installed using `dpkg`
-- Enable and start the `cri-docker` service
-
-**2. Configure these system parameters:**
-
-- Set `net.bridge.bridge-nf-call-iptables` to `1`
-- Set `net.ipv6.conf.all.forwarding` to `1`
-- Set `net.ipv4.ip_forward` to `1`
-- Set `net.netfilter.nf_conntrack_max` to `131072`
+Click **"Next"** for the solution.

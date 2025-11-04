@@ -1,6 +1,6 @@
 {
-  "title": "CKA Practice: Recover MariaDB with PVC",
-  "description": "Recreate a MariaDB deployment using a retained PersistentVolume while preserving data.",
+  "title": "CKA Practice: MariaDB Data Recovery",
+  "description": "Mount a persistent volume to a MariaDB deployment and verify access to pre-existing data.",
   "difficulty": "intermediate",
   "time": "15 minutes",
   "details": {
@@ -10,7 +10,7 @@
       "background": "setup.sh"
     },
     "steps": [
-      { "title": "Rebind PVC and Restore", "text": "step1.md" }
+      { "title": "Solution", "text": "solution.md" }
     ],
     "finish": { "text": "finish.md" }
   },

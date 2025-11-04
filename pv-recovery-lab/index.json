@@ -1,8 +1,8 @@
 {
-  "title": "CKA Practice: Recover Deployment with PersistentVolume",
-  "description": "Recreate a deleted MariaDB deployment while preserving data using PersistentVolumes and PersistentVolumeClaims.",
+  "title": "CKA Practice: Persistent Volume Recovery",
+  "description": "Recover a deleted MariaDB deployment by creating a PVC and binding it to a retained PersistentVolume.",
   "difficulty": "intermediate",
-  "time": "20 minutes",
+  "time": "15 minutes",
   "details": {
     "intro": {
       "text": "intro.md",
@@ -10,10 +10,7 @@
       "background": "setup.sh"
     },
     "steps": [
-      { "title": "Verify PV & Template", "text": "step1.md" },
-      { "title": "Create PVC", "text": "step2.md" },
-      { "title": "Edit Deployment", "text": "step3.md" },
-      { "title": "Apply & Verify", "text": "step4.md" }
+      { "title": "Solution", "text": "solution.md" }
     ],
     "finish": { "text": "finish.md" }
   },

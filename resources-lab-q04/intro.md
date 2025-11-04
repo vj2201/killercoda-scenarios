@@ -1,11 +1,16 @@
-You will tune resource requests and limits for a WordPress Deployment.
+# Resource Requests and Limits
 
-Goals:
-- Scale down the `wordpress` Deployment to 0 replicas.
-- Evenly divide node resources across 3 Pods and set fair CPU/memory requests.
-- Leave safe overhead (do not request 100% of allocatable).
-- Ensure init containers and main containers use exactly the same requests and limits.
-- Scale back to 3 replicas and verify.
+## Scenario
+Configure fair resource allocation for a WordPress deployment with both init containers and main containers.
 
-The setup script creates a base `wordpress` deployment with an init container. You will edit it to add matching resource blocks.
+## Your Task
+1. Scale WordPress deployment to 0 replicas
+2. Edit deployment to add resources (requests/limits: cpu 300m, memory 256Mi) to initContainers and containers
+3. Scale back to 3 replicas and verify all pods are running
 
+## Success Criteria
+- WordPress deployment has 3 running replicas
+- Both initContainers and containers have identical resource specs
+- Pods are evenly distributed across available nodes
+
+Click **"Next"** for the solution.

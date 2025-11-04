@@ -1,10 +1,13 @@
-Great job migrating the Ingress to Gateway API!
+# Congratulations!
 
-- You created `Gateway` `web-gateway` using `GatewayClass` `nginx-class` with HTTPS TLS termination for `gateway.web.k8s.local`.
-- You created `HTTPRoute` `web-route` that preserves the original `/` and `/api` path routing.
+You've successfully completed the Gateway API Configuration lab.
 
-Next steps
-- Optional: remove the old Ingress once you confirm the controller routes traffic via Gateway API.
-- Cleanup lab resources: `bash gateway-api-lab/cleanup.sh`
-- Explore multiple listeners, cross-namespace `HTTPRoute`, or `TLSRoute`.
+## What You Learned
+- Gateway API provides advanced traffic management with Gateways and HTTPRoutes
+- TLS termination is configured at the Gateway listener level
+- HTTPRoutes enable path-based and host-based routing with better control
 
+## Key Takeaway
+Gateway API is the modern evolution of Ingress, offering more flexibility and a standardized approach to traffic management.
+
+Keep practicing!

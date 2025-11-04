@@ -1,12 +1,19 @@
-## Question
+# Configure Network Policy
 
-There are 2 deployments, **Frontend** and **Backend**.
+## Scenario
+Two deployments exist:
+- `frontend` in namespace `frontend` (labels: app=frontend, tier=web)
+- `backend` in namespace `backend` (labels: app=backend, tier=api, port 8080)
 
-- Frontend is in the `frontend` namespace
-- Backend is in the `backend` namespace
+## Your Task
+Create a least-permissive NetworkPolicy in the `backend` namespace that:
+1. Allows ingress ONLY from pods in the `frontend` namespace
+2. Allows traffic ONLY on port 8080
+3. Denies all other traffic
 
-**Task:**
+## Success Criteria
+- NetworkPolicy exists in backend namespace
+- Frontend pods can reach backend:8080
+- All other traffic is blocked
 
-Create a network policy to allow interaction between the frontend and backend deployments.
-
-**The network policy must be least permissive.**
+Click **"Next"** for the solution.

@@ -1,6 +1,8 @@
 {
-  "title": "Kubernetes System Preparation",
-  "description": "Prepare a Linux system for Kubernetes with cri-dockerd and kernel parameters",
+  "title": "CKA Practice: Kubernetes System Preparation",
+  "description": "Install cri-dockerd and configure kernel parameters for Kubernetes cluster setup.",
+  "difficulty": "intermediate",
+  "time": "10 minutes",
   "details": {
     "intro": {
       "text": "intro.md",
@@ -8,20 +10,9 @@
       "background": "setup.sh"
     },
     "steps": [
-      {
-        "title": "Install and Configure cri-dockerd",
-        "text": "step1.md"
-      },
-      {
-        "title": "Configure System Parameters",
-        "text": "step2.md"
-      }
+      { "title": "Solution", "text": "solution.md" }
     ],
-    "finish": {
-      "text": "finish.md"
-    }
+    "finish": { "text": "finish.md" }
   },
-  "backend": {
-    "imageid": "ubuntu"
-  }
+  "backend": { "imageid": "ubuntu" }
 }

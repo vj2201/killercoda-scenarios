@@ -1,18 +1,14 @@
-Great job configuring resource requests and limits!
+# Congratulations!
 
-You successfully:
-- Scaled the WordPress deployment to 0 replicas for safe editing
-- Added identical resource requests and limits to both init and main containers
-- Scaled back to 3 replicas with fair resource allocation across pods
-- Left appropriate overhead on the node (not requesting 100% of allocatable resources)
+You've successfully completed the Resource Requests and Limits lab.
 
-Key takeaways:
-- Init containers and main containers can have different resource requirements, but in this exercise they were identical
-- Resource requests affect scheduling; limits affect runtime behavior
-- Leaving headroom prevents node resource exhaustion
-- Scaling to 0 before editing resources is safer than in-place updates
+## What You Learned
+- Resource requests are used for scheduling decisions
+- Resource limits prevent containers from exceeding allocations
+- Init and main containers can be configured independently
+- Scaling to 0 before editing allows safe deployment updates
 
-Next steps:
-- Practice with ResourceQuotas and LimitRanges at the namespace level
-- Experiment with different request vs limit ratios
-- Try setting up VPA (Vertical Pod Autoscaler) for automatic resource tuning
+## Key Takeaway
+Proper resource configuration ensures efficient cluster utilization and prevents resource starvation issues.
+
+Keep practicing!

@@ -1,6 +1,8 @@
 {
-  "title": "TLS Configuration with ConfigMap",
-  "description": "Configure nginx TLS settings via ConfigMap and verify TLS version restrictions",
+  "title": "CKA Practice: TLS Protocol Configuration",
+  "description": "Configure nginx to enforce specific TLS protocol versions via ConfigMap.",
+  "difficulty": "intermediate",
+  "time": "20 minutes",
   "details": {
     "intro": {
       "text": "intro.md",
@@ -8,20 +10,9 @@
       "background": "setup.sh"
     },
     "steps": [
-      {
-        "title": "Step 1: Configure TLS Version",
-        "text": "step1.md"
-      },
-      {
-        "title": "Step 2: Add /etc/hosts and Verify",
-        "text": "step2.md"
-      }
+      { "title": "Solution", "text": "solution.md" }
     ],
-    "finish": {
-      "text": "finish.md"
-    }
+    "finish": { "text": "finish.md" }
   },
-  "backend": {
-    "imageid": "kubernetes-kubeadm-2nodes"
-  }
+  "backend": { "imageid": "kubernetes" }
 }

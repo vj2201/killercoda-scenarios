@@ -1,23 +1,16 @@
-You will work with Custom Resource Definitions (CRDs) and use kubectl to extract API documentation.
+# CRD Exploration with kubectl explain
 
-**Scenario:**
-cert-manager has been installed in the cluster, which includes several CRDs for managing certificates. You need to explore these CRDs and extract documentation.
+## Scenario
+cert-manager is installed with custom resources. You need to explore CRDs and extract API documentation.
 
-**Tasks:**
-1. Create a list of all cert-manager CRDs and save it to `/root/resources.yaml`
-2. Using kubectl, extract the documentation for the `subject` specification field of the Certificate Custom Resource and save it to `/root/subject.yaml`
-3. You may use any output format that kubectl supports
+## Your Task
+1. Export all cert-manager CRDs to `~/resources.yaml`
+2. Extract Certificate.spec.subject documentation to `~/subject.yaml` using kubectl explain
+3. Verify both files contain the correct information
 
-**Key Concepts:**
-- **CRDs** (Custom Resource Definitions) extend Kubernetes API with custom resources
-- `kubectl get crd` lists all CRDs in the cluster
-- `kubectl explain` shows API documentation for resources and fields
-- Output formats: `-o yaml`, `-o json`, `-o wide`, etc.
-- Field paths use dot notation: `Certificate.spec.subject`
+## Success Criteria
+- `~/resources.yaml` contains all cert-manager CustomResourceDefinitions
+- `~/subject.yaml` contains the subject field documentation
+- Both files are readable and properly formatted
 
-**About cert-manager:**
-- cert-manager automates certificate management in Kubernetes
-- Provides CRDs: Certificate, Issuer, ClusterIssuer, CertificateRequest, etc.
-- Commonly used for TLS/SSL certificate automation
-
-The setup script has already installed cert-manager with all its CRDs.
+Click **"Next"** for the solution.

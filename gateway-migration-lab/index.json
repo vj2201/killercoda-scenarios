@@ -1,6 +1,8 @@
 {
-  "title": "Ingress to Gateway API Migration",
-  "description": "Migrate an existing Ingress resource to the new Kubernetes Gateway API",
+  "title": "CKA Practice: Gateway API Migration",
+  "description": "Migrate an existing Ingress resource to the new Kubernetes Gateway API in web-app namespace.",
+  "difficulty": "intermediate",
+  "time": "15 minutes",
   "details": {
     "intro": {
       "text": "intro.md",
@@ -8,16 +10,9 @@
       "background": "setup.sh"
     },
     "steps": [
-      {
-        "title": "Migrate to Gateway API",
-        "text": "step1.md"
-      }
+      { "title": "Solution", "text": "solution.md" }
     ],
-    "finish": {
-      "text": "finish.md"
-    }
+    "finish": { "text": "finish.md" }
   },
-  "backend": {
-    "imageid": "kubernetes-kubeadm-2nodes"
-  }
+  "backend": { "imageid": "kubernetes" }
 }

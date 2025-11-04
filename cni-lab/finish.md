@@ -1,14 +1,14 @@
-Wrap-up
+# Congratulations!
 
-- Requirement recap:
-  - Pod-to-pod connectivity
-  - NetworkPolicy enforcement
-  - Manifest-based installation
+You've successfully completed the CNI Installation lab.
 
-- Calico satisfies all three when installed via the operator manifest and Installation CR.
-- Flannel installs via manifest but does not provide NetworkPolicy enforcement on its own.
+## What You Learned
+- Calico provides both CNI and NetworkPolicy enforcement
+- VXLAN encapsulation enables cross-node pod communication
+- Operator-based installation uses CRDs for configuration
+- NetworkPolicy is essential for pod-level security
 
-Key verification:
-- Calico pods running in `calico-system`
-- A default-deny NetworkPolicy blocks traffic, and an allow policy restores it.
+## Key Takeaway
+Calico is the go-to choice when you need both container networking and network policies in a single solution.
 
+Keep practicing!

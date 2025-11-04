@@ -1,15 +1,17 @@
-## Question
+# Configure TLS Protocol Version
 
-There is an existing deployment in the `nginx-static` namespace. The deployment contains a ConfigMap that supports TLSv1.2 and TLSv1.3 as well as a Secret for TLS.
+## Scenario
+An nginx deployment in namespace `nginx-static` uses a ConfigMap for configuration. It currently supports TLS 1.2 and 1.3.
 
-There is a service called `nginx-service` in the `nginx-static` namespace that is currently exposing the deployment.
+## Your Task
+1. Edit the ConfigMap to enforce TLS 1.3 ONLY
+2. Restart the deployment to apply changes
+3. Add service IP to /etc/hosts as `ckaquestion.k8s.local`
+4. Verify TLS 1.2 fails and TLS 1.3 succeeds
 
-**Task:**
+## Success Criteria
+- ConfigMap has `ssl_protocols TLSv1.3;`
+- curl with --tls-max 1.2 fails
+- curl with --tlsv1.3 succeeds
 
-1. Configure the ConfigMap to only support TLSv1.3
-2. Add the IP address of the service in `/etc/hosts` and name it `ckaquestion.k8s.local`
-3. Verify everything is working using the following commands:
-   ```bash
-   curl -vk --tls-max 1.2 https://ckaquestion.k8s.local  # should fail
-   curl -vk --tlsv1.3 https://ckaquestion.k8s.local      # should work
-   ```
+Click **"Next"** for the solution.

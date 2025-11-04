@@ -1,6 +1,6 @@
 {
-  "title": "CKA Practice: Install CNI with NetworkPolicy",
-  "description": "Install a Container Network Interface from a manifest that enables pod-to-pod networking and NetworkPolicy enforcement.",
+  "title": "CKA Practice: CNI Installation with NetworkPolicy",
+  "description": "Install Calico CNI with NetworkPolicy enforcement using operator-based deployment.",
   "difficulty": "intermediate",
   "time": "15 minutes",
   "details": {
@@ -10,7 +10,7 @@
       "background": "setup.sh"
     },
     "steps": [
-      { "title": "Choose and Install CNI", "text": "step1.md" }
+      { "title": "Solution", "text": "solution.md" }
     ],
     "finish": { "text": "finish.md" }
   },

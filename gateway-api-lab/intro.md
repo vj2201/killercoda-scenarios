@@ -1,7 +1,16 @@
-You will migrate an existing Ingress resource to the Kubernetes Gateway API.
+# Gateway API Configuration
 
-- No automation: you will apply everything manually via commands shown in the steps.
-- Current state to create: an Ingress named `web` provides HTTPS for host `gateway.web.k8s.local` and routes to two Services.
-- Goal: create a `Gateway` named `web-gateway` using `GatewayClass` `nginx-class` and an `HTTPRoute` named `web-route` that preserves the TLS host and routing rules.
+## Scenario
+Migrate traffic routing from traditional Ingress to the Kubernetes Gateway API for better flexibility and control.
 
-Note: A `GatewayClass` named `nginx-class` is assumed to exist in the cluster. If your cluster lacks Gateway API CRDs, see step 4 optional notes.
+## Your Task
+1. Create a Gateway (web-gateway, HTTPS, port 443, host gateway.web.k8s.local, TLS secret web-tls)
+2. Create an HTTPRoute (web-route) that routes / to web-svc:80 and /api to api-svc:8080
+3. Verify both routes are accessible through the gateway
+
+## Success Criteria
+- Gateway web-gateway has Programmed status
+- HTTPRoute web-route has Accepted status
+- Traffic routes correctly to both backends
+
+Click **"Next"** for the solution.

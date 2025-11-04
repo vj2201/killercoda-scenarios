@@ -1,6 +1,6 @@
 {
-  "title": "CKA Practice: Kubernetes System Preparation",
-  "description": "Install cri-dockerd and configure kernel parameters for Kubernetes cluster setup.",
+  "title": "CKA Practice: CRI-Docker Installation",
+  "description": "Install and configure cri-dockerd container runtime interface for Kubernetes.",
   "difficulty": "intermediate",
   "time": "10 minutes",
   "details": {

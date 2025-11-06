@@ -2,7 +2,63 @@
 
 ## Step 0: Inspect Existing Ingress (What We're Migrating From)
 
-First, examine the current Ingress resource to understand what we need to replicate:
+First, examine the current Ingress resource to understand what we need to replicate.
+
+### Finding TLS Values - Command Comparison
+
+**Option 1: Get full YAML (most complete)**
+```bash
+kubectl get ingress web -n web-app -o yaml
+```
+✅ Shows **everything**: hostname, TLS secret, backend service, paths
+✅ Best for copying exact field values
+
+**Option 2: Describe (human-readable)**
+```bash
+kubectl describe ingress web -n web-app
+```
+✅ Shows TLS section clearly with hosts and secret name
+✅ Better formatted, easier to read
+✅ Shows Rules and Backend sections clearly
+
+**Option 3: Get (basic info only)**
+```bash
+kubectl get ingress web -n web-app
+```
+❌ **Does NOT show TLS details** - only shows NAME, CLASS, HOSTS, ADDRESS, PORTS, AGE
+❌ Not useful for finding secret name
+
+**Option 4: Check if secret exists**
+```bash
+kubectl get secret web-tls-secret -n web-app
+```
+✅ Confirms the TLS secret exists
+❌ **Does NOT show** what's inside the certificate
+💡 Only use this to verify the secret is available after you found its name from Ingress
+
+---
+
+**Recommended approach: Use `kubectl describe ingress`**
+
+```bash
+kubectl describe ingress web -n web-app
+```
+
+**Example output:**
+```
+Name:             web
+Namespace:        web-app
+Ingress Class:    nginx
+Rules:
+  Host                    Path  Backends
+  ----                    ----  --------
+  gateway.web.k8s.local
+                          /     web-service:80
+TLS:
+  web-tls-secret terminates gateway.web.k8s.local   ← FOUND IT!
+```
+
+**Or use YAML for complete details:**
 
 ```bash
 kubectl get ingress web -n web-app -o yaml

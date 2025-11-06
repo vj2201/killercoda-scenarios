@@ -41,6 +41,55 @@ Now let's create equivalent Gateway API resources!
 ---
 
 ## Step 1: Create Gateway in web-app Namespace
+
+**Before creating, understand the TLS field mappings:**
+
+### Where Do TLS Fields Come From?
+
+**From Ingress inspection:**
+```yaml
+# Ingress (old way)
+spec:
+  tls:
+  - hosts:
+    - gateway.web.k8s.local         # ← hostname
+    secretName: web-tls-secret      # ← certificate name
+```
+
+**Maps to Gateway API (new way):**
+```yaml
+# Gateway (new way)
+spec:
+  listeners:
+  - hostname: gateway.web.k8s.local  # ← From Ingress tls.hosts
+    tls:
+      mode: Terminate               # ← NEW: How to handle TLS (not in Ingress)
+      certificateRefs:
+      - name: web-tls-secret        # ← From Ingress tls.secretName
+```
+
+**TLS Field Explanations:**
+
+| **Field** | **Where It Comes From** | **Why This Value?** |
+|-----------|------------------------|---------------------|
+| `hostname: gateway.web.k8s.local` | From Ingress `spec.tls[].hosts[]` | Same hostname as Ingress |
+| `tls.mode: Terminate` | **Not in Ingress** (implicit behavior) | Gateway decrypts HTTPS → sends HTTP to backend |
+| `certificateRefs[].name: web-tls-secret` | From Ingress `spec.tls[].secretName` | Same TLS certificate secret |
+| `certificateRefs[].kind: Secret` | **Not in Ingress** (implicit) | Gateway API requires explicit kind (default: Secret) |
+
+**What is "Terminate" mode?**
+- Gateway terminates (decrypts) HTTPS traffic at port 443
+- Forwards unencrypted HTTP to backend service
+- Same behavior as Ingress (Ingress doesn't have this field, it's always "terminate")
+
+**Other TLS modes (not used here):**
+- `Passthrough`: Gateway forwards encrypted traffic without decrypting (raw TCP)
+- For this lab, we use `Terminate` to match Ingress behavior
+
+---
+
+**Now create the Gateway:**
+
 ```bash
 cat > /tmp/gateway.yaml << EOF
 apiVersion: gateway.networking.k8s.io/v1
@@ -54,11 +103,11 @@ spec:
   - name: https
     port: 443
     protocol: HTTPS
-    hostname: gateway.web.k8s.local
+    hostname: gateway.web.k8s.local   # ← From Ingress tls.hosts
     tls:
-      mode: Terminate
+      mode: Terminate                 # ← NEW field (not in Ingress, but same behavior)
       certificateRefs:
-      - name: web-tls-secret
+      - name: web-tls-secret          # ← From Ingress tls.secretName
 EOF
 kubectl apply -f /tmp/gateway.yaml
 kubectl get gateway -n web-app
@@ -129,13 +178,19 @@ kubectl delete ingress web -n web-app
 
 ## Migration Summary
 
-| **Ingress Field** | **Gateway API Equivalent** | **Resource** |
-|-------------------|---------------------------|--------------|
-| `spec.ingressClassName` | `spec.gatewayClassName` | Gateway |
-| `spec.tls.hosts` | `spec.listeners[].hostname` | Gateway |
-| `spec.tls.secretName` | `spec.listeners[].tls.certificateRefs` | Gateway |
-| `spec.rules[].host` | `spec.hostnames[]` | HTTPRoute |
-| `spec.rules[].http.paths[].backend.service` | `spec.rules[].backendRefs[]` | HTTPRoute |
+| **Ingress Field** | **Gateway API Equivalent** | **Resource** | **Notes** |
+|-------------------|---------------------------|--------------|-----------|
+| `spec.ingressClassName` | `spec.gatewayClassName` | Gateway | Same purpose: select controller |
+| `spec.tls.hosts[]` | `spec.listeners[].hostname` | Gateway | Move hostname to listener level |
+| `spec.tls.secretName` | `spec.listeners[].tls.certificateRefs[].name` | Gateway | Same secret, explicit reference |
+| *(implicit: terminate TLS)* | `spec.listeners[].tls.mode: Terminate` | Gateway | **NEW**: Explicitly declare TLS behavior |
+| `spec.rules[].host` | `spec.hostnames[]` | HTTPRoute | Move routing host to HTTPRoute |
+| `spec.rules[].http.paths[].backend.service` | `spec.rules[].backendRefs[]` | HTTPRoute | Same backend, cleaner syntax |
+
+**Key Differences:**
+- **Ingress**: TLS termination is implicit (always terminates)
+- **Gateway API**: TLS `mode` is explicit (`Terminate`, `Passthrough`, etc.)
+- **Gateway API**: Separates infrastructure (Gateway) from routing (HTTPRoute)
 
 ## Explanation
 

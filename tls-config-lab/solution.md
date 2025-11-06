@@ -29,19 +29,48 @@ echo "$SVC_IP ckaquestion.k8s.local" | sudo tee -a /etc/hosts
 
 ## Step 4: Test TLS Versions
 
-```bash
-# Should FAIL (TLS 1.2 not supported after config change)
-curl -vk --tlsv1.2 https://ckaquestion.k8s.local 2>&1 | grep -i "ssl\|tls"
+⚠️ **IMPORTANT:** Note the `https://` protocol and `--tlsv1.2` syntax (two dashes, with 'v')!
 
-# Should SUCCEED (TLS 1.3 supported)
+```bash
+# Test TLS 1.2 (should FAIL - connection refused)
+curl -vk --tlsv1.2 https://ckaquestion.k8s.local
+```
+
+Expected: `SSL routines:ssl_choose_client_version:unsupported protocol` or connection error
+
+```bash
+# Test TLS 1.3 (should SUCCEED)
 curl -vk --tlsv1.3 https://ckaquestion.k8s.local
 ```
 
-**Expected results:**
-- First command: SSL connection error (TLS 1.2 rejected)
-- Second command: `TLS Configuration Working!`
+Expected output:
+```
+TLS Configuration Working!
+```
 
-**Note:** If you see "unknown option", use `--tls1.2` or `--tls1.3` instead (older curl versions).
+### Common Mistakes to Avoid:
+
+❌ **WRONG**: `curl -vk tls1.2 cka.k8s.local` (missing `--`, missing `https://`, wrong hostname)
+❌ **WRONG**: `curl -vk --tls1.2 http://ckaquestion.k8s.local` (missing 'v', wrong protocol)
+✅ **CORRECT**: `curl -vk --tlsv1.2 https://ckaquestion.k8s.local`
+
+### If Commands Don't Work:
+
+1. **Verify /etc/hosts entry:**
+   ```bash
+   grep ckaquestion /etc/hosts
+   ```
+   Should show: `10.x.x.x ckaquestion.k8s.local`
+
+2. **Check nginx is running:**
+   ```bash
+   kubectl get pods -n nginx-static
+   ```
+
+3. **Verify service IP:**
+   ```bash
+   kubectl get svc nginx-service -n nginx-static
+   ```
 
 ## Explanation
 

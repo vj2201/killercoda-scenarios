@@ -30,14 +30,18 @@ echo "$SVC_IP ckaquestion.k8s.local" | sudo tee -a /etc/hosts
 ## Step 4: Test TLS Versions
 
 ```bash
-# Should FAIL (TLS 1.2 not supported)
-curl -vk --tls-max 1.2 https://ckaquestion.k8s.local 2>&1 | grep -i "ssl\|tls"
+# Should FAIL (TLS 1.2 not supported after config change)
+curl -vk --tlsv1.2 https://ckaquestion.k8s.local 2>&1 | grep -i "ssl\|tls"
 
 # Should SUCCEED (TLS 1.3 supported)
 curl -vk --tlsv1.3 https://ckaquestion.k8s.local
 ```
 
-Expected: First command fails with SSL/TLS error. Second succeeds with "TLS Configuration Working!"
+**Expected results:**
+- First command: SSL connection error (TLS 1.2 rejected)
+- Second command: `TLS Configuration Working!`
+
+**Note:** If you see "unknown option", use `--tls1.2` or `--tls1.3` instead (older curl versions).
 
 ## Explanation
 

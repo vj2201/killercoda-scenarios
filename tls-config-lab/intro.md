@@ -13,7 +13,7 @@ An nginx deployment in namespace `nginx-static` uses a ConfigMap for configurati
 
 ## Success Criteria
 - ConfigMap has `ssl_protocols TLSv1.3;`
-- curl with --tls-max 1.2 fails
-- curl with --tlsv1.3 succeeds
+- curl with `--tlsv1.2` fails (TLS 1.2 rejected)
+- curl with `--tlsv1.3` succeeds (returns "TLS Configuration Working!")
 
 Click **"Next"** for the solution.

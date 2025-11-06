@@ -14,15 +14,26 @@ An Ingress resource exists in the `web-app` namespace routing traffic to a web s
 
 ## Your Task
 
-1. **Inspect** the existing Ingress resource `web` in namespace `web-app`
+1. **Inspect** the existing Ingress resource `web` in namespace `web-app`:
+   ```bash
+   kubectl get ingress web -n web-app -o yaml
+   ```
+   Extract: hostname, TLS secret, backend service name/port
+
 2. **Create a Gateway** named `web-gateway` with:
    - HTTPS listener on port 443
-   - Hostname: `gateway.web.k8s.local`
-   - TLS secret: `web-tls-secret`
+   - Hostname: `gateway.web.k8s.local` (from Ingress)
+   - TLS secret: `web-tls-secret` (from Ingress)
+   - GatewayClass: `nginx-class`
+
 3. **Create an HTTPRoute** named `web-route` with:
-   - Same hostname as the Ingress
-   - Same routing rules (path → backend service)
-4. **Verify** Gateway is Programmed and HTTPRoute is Accepted
+   - Attach to `web-gateway` via `parentRefs`
+   - Same hostname: `gateway.web.k8s.local`
+   - Same backend: `web-service:80` (from Ingress)
+
+4. **Verify** both resources:
+   - Gateway status: `Programmed=True`
+   - HTTPRoute status: `Accepted=True`
 
 ## Success Criteria
 

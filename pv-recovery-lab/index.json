@@ -1,6 +1,6 @@
 {
-  "title": "CKA Practice: Persistent Volume Recovery",
-  "description": "Recover a deleted MariaDB deployment by creating a PVC and binding it to a retained PersistentVolume.",
+  "title": "CKA Practice: PVC - MariaDB Data Recovery",
+  "description": "Create PersistentVolumeClaim to recover MariaDB data from a retained PersistentVolume.",
   "difficulty": "intermediate",
   "time": "15 minutes",
   "details": {

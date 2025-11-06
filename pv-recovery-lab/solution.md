@@ -1,42 +1,63 @@
 # Solution
 
-## Step 1: Create the PersistentVolumeClaim
+## Step 1: Apply the PersistentVolumeClaim
+
+The PVC template is already created at `/root/pvc.yaml`. Apply it:
+
 ```bash
-cat > /tmp/pvc.yaml << EOF
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mariadb-pvc
-  namespace: mariadb
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: manual
-  resources:
-    requests:
-      storage: 250Mi
-EOF
-kubectl apply -f /tmp/pvc.yaml
+kubectl apply -f /root/pvc.yaml
+```
+
+**Verify PVC is bound:**
+```bash
 kubectl get pvc -n mariadb
 ```
 
-## Step 2: Update Deployment and Apply
+Expected output: Status should be `Bound` to `mariadb-pv`
+
+## Step 2: Edit Deployment to Use PVC
+
+The deployment at `/root/mariadb-deploy.yaml` currently uses `emptyDir`. Replace it with the PVC:
+
 ```bash
-sed -i 's/emptyDir: {}/name: mariadb-storage/g' /root/mariadb-deploy.yaml
-cat >> /root/mariadb-deploy.yaml << 'EOF'
-        volumeMounts:
-        - name: mariadb-storage
-          mountPath: /var/lib/mysql
-      volumes:
-      - name: mariadb-storage
-        persistentVolumeClaim:
-          claimName: mariadb-pvc
-EOF
-kubectl apply -f /root/mariadb-deploy.yaml
-kubectl get pods -n mariadb
+kubectl edit -f /root/mariadb-deploy.yaml
 ```
 
-## Explanation
-The PVC acts as a bridge between the Deployment and the physical PersistentVolume. By specifying the PVC in volumeMounts, the MariaDB pod can access the retained storage even after deletion.
+Or use `sed` to replace emptyDir with PVC:
 
-✅ **Done!** MariaDB is now running with persistent storage bound to a reclaimed volume.
+```bash
+sed -i 's/emptyDir: {}/persistentVolumeClaim:\n          claimName: mariadb-pvc/' /root/mariadb-deploy.yaml
+```
+
+**The volumes section should look like this:**
+```yaml
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: mariadb-pvc
+```
+
+## Step 3: Apply the Deployment
+
+```bash
+kubectl apply -f /root/mariadb-deploy.yaml
+```
+
+**Verify pod is running:**
+```bash
+kubectl get pods -n mariadb
+kubectl describe pod -n mariadb
+```
+
+Expected: Pod status `Running`, using PVC `mariadb-pvc`
+
+## Explanation
+
+**PersistentVolumeClaim (PVC)** acts as a request for storage. It binds to an available PersistentVolume that matches the requirements (size, access mode, storage class).
+
+**Key Points:**
+- PV `mariadb-pv` was pre-created with `Retain` policy
+- PVC `mariadb-pvc` requests 250Mi (PV has 500Mi, so it satisfies the request)
+- Deployment mounts the PVC at `/var/lib/mysql` for MariaDB data
+
+✅ **Done!** MariaDB is now running with persistent storage that survives pod restarts.

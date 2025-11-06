@@ -31,7 +31,25 @@ spec:
     path: "/mnt/data/mariadb"
 YAML
 
-# Create deployment template file WITHOUT volume configuration
+# Create PVC template file
+echo "[info] Creating PVC template at /root/pvc.yaml..."
+cat > /root/pvc.yaml <<'YAML'
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mariadb-pvc
+  namespace: mariadb
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  storageClassName: manual
+  resources:
+    requests:
+      storage: 250Mi
+YAML
+
+# Create deployment template file with emptyDir (to be replaced with PVC)
 echo "[info] Creating deployment template at /root/mariadb-deploy.yaml..."
 cat > /root/mariadb-deploy.yaml <<'YAML'
 apiVersion: apps/v1
@@ -53,15 +71,19 @@ spec:
     spec:
       containers:
       - name: mariadb
-        image: mariadb:10.6
+        image: mariadb:11
         env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "password123"
-        - name: MYSQL_DATABASE
-          value: "testdb"
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "yes"
         ports:
         - containerPort: 3306
           name: mysql
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: data
+        emptyDir: {}
 YAML
 
 echo "[info] Verifying PersistentVolume status..."
@@ -69,5 +91,6 @@ kubectl get pv mariadb-pv || true
 
 echo "✅ Setup complete. Scenario ready:"
 echo "   - PersistentVolume 'mariadb-pv' is Available (500Mi, ReadWriteOnce)"
-echo "   - Deployment template at /root/mariadb-deploy.yaml"
-echo "   - You need to: Create PVC, Edit deployment, Apply deployment"
+echo "   - PVC template at /root/pvc.yaml (ready to apply)"
+echo "   - Deployment template at /root/mariadb-deploy.yaml (uses emptyDir)"
+echo "   - Task: Apply PVC, then edit deployment to use PVC instead of emptyDir"

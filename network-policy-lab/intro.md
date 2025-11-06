@@ -8,10 +8,24 @@ Two deployments exist:
 - `backend` in namespace `backend` (labels: app=backend, tier=api, port 8080)
 
 ## Your Task
-Create a least-permissive NetworkPolicy in the `backend` namespace that:
-1. Allows ingress ONLY from pods in the `frontend` namespace
-2. Allows traffic ONLY on port 8080
-3. Denies all other traffic
+
+1. **Inspect** existing resources to find required NetworkPolicy fields:
+   ```bash
+   kubectl get pods -n backend --show-labels           # Find pod labels
+   kubectl get namespace frontend -o yaml              # Find namespace labels
+   kubectl get svc -n backend                          # Find service port
+   ```
+   Extract: pod labels, namespace labels, container port
+
+2. **Create a NetworkPolicy** named `backend-network-policy` in the `backend` namespace that:
+   - Selects backend pods using their labels
+   - Allows ingress ONLY from pods in the `frontend` namespace
+   - Allows traffic ONLY on port 8080
+   - Denies all other traffic
+
+3. **Verify** the NetworkPolicy:
+   - Frontend pods can reach backend:8080
+   - Other pods are blocked
 
 ## Success Criteria
 - NetworkPolicy exists in backend namespace

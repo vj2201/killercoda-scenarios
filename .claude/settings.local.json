@@ -43,7 +43,9 @@
       "Read(//c/Users/VJ/OneDrive/Desktop/CKA-Scenerio/**)",
       "Bash(for lab in cert-manager-lab cni-lab cri-docker-scenrio gateway-migration-lab hpa-lab ingress-lab mariadb-pvc-lab network-policy-lab nodeport-lab priority-lab resources-lab-q04 sidecar-lab taints-tolerations-lab tls-config-lab)",
       "Bash(git reset:*)",
-      "Bash(if [ -f \"$lab/solution/temp-solution-file\" ])"
+      "Bash(if [ -f \"$lab/solution/temp-solution-file\" ])",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ],
     "deny": [],
     "ask": []

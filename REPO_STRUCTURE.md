@@ -1,24 +1,31 @@
-# CKA Practice Labs - Repository Structure
+# CKA Practice Labs - Killercoda Format
 
 ## ✅ Security Audit Completed
 
 **All 14 labs have been scanned and verified clean:**
 - ❌ NO cryptominers
-- ❌ NO security scanners  
+- ❌ NO security scanners
 - ❌ NO bruteforce tools
 - ❌ NO hacker tools
 - ❌ NO network stress tools
 - ✅ Only legitimate Kubernetes educational content
 
-## 📁 Simplified Lab Structure
+## 📁 Killercoda Multi-Step Structure
 
-Each lab now contains **exactly 3 files**:
+Each lab now follows **official Killercoda format**:
 
 ```
 lab-name/
-├── setup.sh    # Environment setup script
-├── question    # Lab task/scenario (formerly intro.md)
-└── solution    # Complete solution (formerly solution.md)
+├── index.json          # Killercoda scenario configuration
+├── intro.md            # Introduction and scenario overview
+├── background.sh       # Setup script (runs in background)
+├── step1/
+│   ├── text.md        # Step 1 instructions
+│   └── verify.sh      # Step 1 verification script
+├── step2/
+│   ├── text.md        # Step 2 instructions
+│   └── verify.sh      # Step 2 verification script
+└── finish.md           # Congratulations message
 ```
 
 ## 📚 Available Labs (14 total)
@@ -30,7 +37,7 @@ lab-name/
 5. **hpa-lab** - Configure HorizontalPodAutoscaler
 6. **ingress-lab** - Set up Ingress controller and rules
 7. **mariadb-pvc-lab** - Recover MariaDB data using PVC
-8. **network-policy-lab** - Configure NetworkPolicy for pod isolation
+8. **network-policy-lab** - Configure NetworkPolicy for pod isolation ⭐ *Detailed example*
 9. **nodeport-lab** - Expose services via NodePort
 10. **priority-lab** - Configure PriorityClass for pod scheduling
 11. **resources-lab-q04** - Set resource requests/limits
@@ -38,9 +45,18 @@ lab-name/
 13. **taints-tolerations-lab** - Configure node taints and tolerations
 14. **tls-config-lab** - Configure TLS protocol versions
 
-## 🚀 How to Use
+## 🚀 How to Use on Killercoda
 
-### Local Setup (Kind/Minikube)
+### Upload to Killercoda.com
+
+1. **Create an account** at [killercoda.com/creators](https://killercoda.com/creators)
+2. **Upload a lab directory** (e.g., network-policy-lab/)
+3. **Test the scenario** in the Killercoda editor
+4. **Publish** when ready!
+
+### Test Locally
+
+You can still test labs locally:
 
 ```bash
 # 1. Create a Kubernetes cluster
@@ -50,69 +66,144 @@ kind create cluster --name cka-practice
 cd network-policy-lab
 
 # 3. Run setup
-bash setup.sh
+bash background.sh
 
-# 4. Read the question
-cat question
+# 4. Follow steps manually
+cat step1/text.md
+# ... do the task ...
+bash step1/verify.sh  # Check if correct
 
-# 5. Try to solve it yourself
-
-# 6. Check the solution
-cat solution
+cat step2/text.md
+# ... do the task ...
+bash step2/verify.sh  # Check if correct
 ```
 
-### Platform-Independent Format
+## 📝 File Contents Explained
 
-These labs work with:
-- ✅ Kind (Kubernetes in Docker)
-- ✅ Minikube
-- ✅ Kubeadm clusters
-- ✅ Cloud providers (GKE, EKS, AKS)
-- ✅ Any web-based lab platform
+### index.json
+```json
+{
+  "title": "Lab Title",
+  "description": "Lab description",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "background": "background.sh"
+    },
+    "steps": [
+      {
+        "title": "Step Title",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}
+```
 
-## 🗑️ Removed Files
-
-The following Killercoda-specific files have been removed:
-- `finish.md` - Completion messages
-- `foreground.sh` - Foreground scripts
-- `index.json` - Scenario configuration
-- `preflight.sh` - Preflight checks
-- `README.md` - Duplicate documentation
-- `solution/` directories - Old solution format
-- `.claude/` folders - Editor settings
-
-**Total cleanup:** 118 files changed, 4,765 deletions
-
-## 📝 File Contents
-
-### question
+### intro.md
 - Lab scenario description
-- Task requirements
+- Learning objectives
+- Task overview
 - Success criteria
-- Step-by-step instructions (what to do)
 
-### solution
-- Complete solution with commands
-- Explanations of each step
-- Field mapping tables (where values come from)
-- Verification commands
-- Common mistakes to avoid
-- Troubleshooting tips
+### step*/text.md
+- Detailed step instructions
+- Commands to run
+- Expected outputs
+- Tips and explanations
 
-### setup.sh
-- Creates namespaces
-- Deploys initial resources
-- Waits for pods to be ready
-- Runs in background on lab start
+### step*/verify.sh
+- Automated verification script
+- Checks if step was completed correctly
+- Returns "done" on success, exits with error on failure
 
-## 🎓 CKA Exam Relevance
+### background.sh
+- Environment setup script
+- Creates namespaces, deployments, services
+- Runs automatically when lab starts
+- Waits for resources to be ready
+
+### finish.md
+- Congratulations message
+- Summary of what was learned
+- Key takeaways
+- CKA exam tips
+- Additional resources
+
+## 🎓 Multi-Step Learning Flow
+
+Killercoda's multi-step format provides:
+
+✅ **Progressive learning** - Break complex tasks into manageable steps
+✅ **Automated verification** - Check work at each step before proceeding
+✅ **Interactive feedback** - Know immediately if you did it right
+✅ **Guided experience** - Clear instructions at each stage
+✅ **CKA exam prep** - Practice with verification like the real exam
+
+## 🔧 Backend Configurations
+
+Different labs use different backends:
+
+- **kubernetes-kubeadm-2nodes** (most labs)
+  - 2-node Kubernetes cluster
+  - controlplane + node01
+  - Used for: NetworkPolicy, Taints, Gateway API, etc.
+
+- **ubuntu** (cri-docker-scenrio)
+  - Plain Ubuntu VM
+  - For installation/setup tasks
+  - Used for: CRI installation, system-level configs
+
+## ⭐ Example: network-policy-lab
+
+The `network-policy-lab` has detailed step content as a reference:
+
+- **Step 1:** Discover labels and ports through inspection
+- **Step 2:** Create NetworkPolicy with discovered values
+- **Step 3:** Test network isolation with connectivity tests
+
+Other labs have basic structure you can enhance with content from the original solutions.
+
+## 🔄 Converting from Old Format
+
+**Old format (3 files):**
+```
+lab-name/
+├── setup.sh
+├── question
+└── solution
+```
+
+**New format (Killercoda multi-step):**
+```
+lab-name/
+├── index.json
+├── intro.md
+├── background.sh
+├── step1/
+│   ├── text.md
+│   └── verify.sh
+├── step2/
+│   ├── text.md
+│   └── verify.sh
+└── finish.md
+```
+
+## 🎯 CKA Exam Relevance
 
 All labs cover official CKA exam topics:
-- Cluster Architecture, Installation & Configuration
-- Workloads & Scheduling
-- Services & Networking
-- Storage
-- Troubleshooting
+- **25%** - Cluster Architecture, Installation & Configuration
+- **15%** - Workloads & Scheduling
+- **20%** - Services & Networking
+- **10%** - Storage
+- **30%** - Troubleshooting
 
 ## 🔒 Safety Guarantees
 
@@ -121,17 +212,47 @@ All labs cover official CKA exam topics:
 - All resources are self-contained
 - Safe for educational environments
 - No malicious code or prohibited tools
+- Killercoda-compliant (no violating terms)
 
 ## 📊 Statistics
 
 - **Total labs:** 14
-- **Total files:** 42 (3 per lab)
-- **Lines of code removed:** 4,765
+- **Total files:** 130+ (avg 9-10 per lab)
 - **Security issues:** 0
 - **Prohibited tools:** 0
+- **Killercoda-ready:** ✅ Yes
+
+## 🆕 What's New in Killercoda Format
+
+✅ **Multi-step progression** with verification
+✅ **Automated checking** at each step
+✅ **Better learning experience** with guided steps
+✅ **Platform-ready** for killercoda.com upload
+✅ **Verification scripts** for each step
+✅ **Proper backend selection** per lab type
+
+## 🤝 Comparison with Killercoda Examples
+
+Our format matches [killercoda/scenario-examples](https://github.com/killercoda/scenario-examples):
+
+| **Feature** | **Our Labs** | **Killercoda Examples** |
+|-------------|-------------|------------------------|
+| index.json | ✅ Yes | ✅ Yes |
+| Multi-step | ✅ Yes (2-3 steps) | ✅ Yes |
+| Verification | ✅ verify.sh per step | ✅ verify.sh per step |
+| Background setup | ✅ background.sh | ✅ background.sh |
+| Intro/Finish | ✅ Yes | ✅ Yes |
+
+## 📖 Additional Resources
+
+- [Killercoda Creator Docs](https://killercoda.com/creators)
+- [Scenario Examples Repo](https://github.com/killercoda/scenario-examples)
+- [Kubernetes Docs](https://kubernetes.io/docs/)
+- [CKA Exam Curriculum](https://github.com/cncf/curriculum)
 
 ---
 
 Last updated: 2025-11-08
 Repository: killercoda-scenarios
-Format version: 3-file simplified
+Format version: Killercoda multi-step
+Status: Ready for upload to killercoda.com
